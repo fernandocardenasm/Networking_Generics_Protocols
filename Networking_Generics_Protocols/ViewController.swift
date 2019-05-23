@@ -7,9 +7,30 @@
 //
 
 import CryptoSwift
+import Firebase
 import UIKit
 
 class ViewController: UIViewController {
+//    var usersListener: ListenerRegistration!
+
+    var userRef: CollectionReference!
+    var usersListener: ListenerRegistration!
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+//        usersListener = userRef.addSnapshotListener { (collectionSnapshot, error) in
+//            guard let collectionSnapshot = collectionSnapshot, !collectionSnapshot.documentChanges.isEmpty  else { return }
+//
+//            collectionSnapshot.documentChanges.forEach {
+//                print($0.document.data())
+//                print("--------------")
+//            }
+//        }
+        createFirstUser()
+        createSecondUser()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -19,12 +40,90 @@ class ViewController: UIViewController {
         configuration.timeoutIntervalForRequest = Constants.timeoutForRequestSeconds
         let marvelAPI = MarvelAPI(session: URLSession(configuration: configuration))
 //        marvelAPI.run()
-        marvelAPI.downloadResponse(for: GetComicCharactersRequest()) { result in
-            switch result {
-            case .success(let data):
-                print(data)
-            case .failure(let error):
-                print(error.localizedDescription)
+//        marvelAPI.downloadResponse(for: GetComicCharactersRequest()) { result in
+//            switch result {
+//            case .success(let data):
+//                print(data)
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
+
+
+
+        userRef = Firestore.firestore().collection("users")
+
+        usersListener = userRef.addSnapshotListener({ (querySnapshot, error) in
+            if let error = error {
+                print("Error: \(error)")
+            } else if let querySnapshot = querySnapshot {
+                guard !querySnapshot.documentChanges.isEmpty else {
+                    print("No documents changed")
+                    return
+                }
+                querySnapshot.documentChanges.forEach {
+                    print("Document Data: \($0.document.data())")
+                }
+                print("Changes: \(querySnapshot.documentChanges.count)")
+                print("--------------")
+            }
+        })
+//
+//        createFirstUser()
+//        createSecondUser()
+//        allUsers()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        usersListener.remove()
+    }
+
+    private func createFirstUser() {
+        // Add a new document with a generated ID
+        var ref: DocumentReference? = nil
+        let db = Firestore.firestore()
+        ref = db.collection("users").addDocument(data: [
+            "first": "Ada",
+            "last": "Lovelace",
+            "born": 1815
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with ID: \(ref!.documentID)")
+            }
+        }
+    }
+
+    private func createSecondUser() {
+        let db = Firestore.firestore()
+        // Add a second document with a generated ID.
+        var ref: DocumentReference? = nil
+        ref = db.collection("users").addDocument(data: [
+            "first": "Alan",
+            "middle": "Mathison",
+            "last": "Turing",
+            "born": 1912
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with ID: \(ref!.documentID)")
+            }
+        }
+    }
+
+    func allUsers() {
+        let db = Firestore.firestore()
+        db.collection("users").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                }
             }
         }
     }
