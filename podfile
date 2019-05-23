@@ -1,0 +1,12 @@
+platform :ios, '11.0'
+use_frameworks!
+
+target 'Networking_Generics_Protocols' do
+  pod 'CryptoSwift', '~> 1.0'
+
+  # RxTest and RxBlocking make the most sense in the context of unit/integration tests
+  target 'Networking_Generics_ProtocolsTests' do
+	inherit! :search_paths
+	pod 'Nimble', '~> 8.0'
+    end
+end
