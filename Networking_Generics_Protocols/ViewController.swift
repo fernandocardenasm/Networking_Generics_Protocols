@@ -6,8 +6,8 @@
 //  Copyright © 2019 Fernando. All rights reserved.
 //
 
-import UIKit
 import CryptoSwift
+import UIKit
 
 class ViewController: UIViewController {
     override func viewDidLoad() {
@@ -66,7 +66,6 @@ class MarvelAPI<S: Session> {
     }
 
     func downloadResponse<R: APIRequest>(for request: R, completion: @escaping (Result<R.Response, Error>) -> Void) {
-
         let endpointURL = makeEndpointURL(for: request)
 
         guard let url = endpointURL else {
@@ -162,6 +161,7 @@ struct GetComicCharactersRequest: APIRequest {
     var resourceName: String {
         return GlobalConstants.MarvelAPI.Paths.characters
     }
+
     var parameters: [String: Any] {
         return [GlobalConstants.MarvelAPI.Parameters.limit: limit]
     }
