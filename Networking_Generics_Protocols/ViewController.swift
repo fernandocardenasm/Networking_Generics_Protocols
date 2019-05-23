@@ -19,13 +19,11 @@ class ViewController: UIViewController {
         configuration.timeoutIntervalForRequest = Constants.timeoutForRequestSeconds
         let marvelAPI = MarvelAPI(session: URLSession(configuration: configuration))
 //        marvelAPI.run()
-        print(Date())
         marvelAPI.downloadResponse(for: GetComicCharactersRequest()) { result in
             switch result {
             case .success(let data):
                 print(data)
             case .failure(let error):
-                print("First Closure: \(Date())")
                 print(error.localizedDescription)
             }
         }
