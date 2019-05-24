@@ -49,6 +49,8 @@ class ViewController: UIViewController {
 //            }
 //        }
 
+        userRef = Firestore.firestore().collection("users")
+
         usersListener = userRef.addSnapshotListener({ (querySnapshot, error) in
             if let error = error {
                 print("Error: \(error)")
