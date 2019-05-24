@@ -150,6 +150,8 @@ protocol FBCollectionReference {
     func addDocument(data: [String: Any]) -> DocumentRef
 
     func addDocument(data: [String: Any], completion: ((Error?) -> Void)?) -> DocumentRef
+
+    // TODO: The protocol that conforms to this one, may also need to implement FBQuery because CollectionReference is a subclass of FBQuery
 }
 
 extension CollectionReference: FBCollectionReference {}
