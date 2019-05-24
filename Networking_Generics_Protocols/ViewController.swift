@@ -49,10 +49,6 @@ class ViewController: UIViewController {
 //            }
 //        }
 
-
-
-        userRef = Firestore.firestore().collection("users")
-
         usersListener = userRef.addSnapshotListener({ (querySnapshot, error) in
             if let error = error {
                 print("Error: \(error)")
@@ -128,6 +124,83 @@ class ViewController: UIViewController {
         }
     }
 }
+
+class FirDatabase<F: FBFirestore> {
+    let database: F
+
+    init(database: F) {
+        self.database = database
+    }
+}
+
+protocol FBFirestore {
+    associatedtype CollectionRef: FBCollectionReference
+    func collection(_ collectionPath: String) -> CollectionRef
+}
+
+extension Firestore: FBFirestore {}
+
+protocol FBCollectionReference {
+    associatedtype DocumentRef: FBDocumentReference
+
+    var collectionID: String { get }
+
+    func document() -> DocumentRef
+
+    func addDocument(data: [String: Any]) -> DocumentRef
+
+    func addDocument(data: [String: Any], completion: ((Error?) -> Void)?) -> DocumentRef
+}
+
+extension CollectionReference: FBCollectionReference {}
+
+protocol FBDocumentReference {
+    var documentID: String { get }
+}
+
+extension DocumentReference: FBDocumentReference {}
+
+protocol FBQuery {
+    associatedtype Database: FBFirestore
+    // Query Snapshot
+    associatedtype Snapshot: FBQuerySnapshot
+
+    var firestore: Database { get }
+
+    func getDocuments(completion: @escaping (Snapshot?, Error?) -> Void)
+
+    // ListenerRegistration is already a protocol. For that reason, nonextra associatedType is needed.
+    func addSnapshotListener(_ listener: @escaping (Snapshot?, Error?) -> Void) -> ListenerRegistration
+}
+
+extension Query: FBQuery { }
+
+protocol FBQuerySnapshot {
+    associatedtype DocSnapshot: QueryDocumentSnapshot
+    associatedtype DocChange: FBDocumentChange
+
+    var documents: [DocSnapshot] { get }
+
+    var documentChanges: [DocChange] { get }
+
+    var isEmpty: Bool { get }
+
+    var count: Int { get }
+}
+
+extension QuerySnapshot: FBQuerySnapshot {}
+
+protocol FBQueryDocumentSnapshot {
+    var documentID: String { get }
+
+    func data() -> [String: Any]
+}
+
+extension QueryDocumentSnapshot: FBQueryDocumentSnapshot {}
+
+protocol FBDocumentChange {}
+
+extension DocumentChange: FBDocumentChange {}
 
 extension ViewController {
     private struct Constants {
