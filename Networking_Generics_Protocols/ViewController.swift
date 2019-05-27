@@ -13,10 +13,19 @@ import UIKit
 class ViewController<FB: FBFirestore>: UIViewController {
 //    var usersListener: ListenerRegistration!
 
-    var userRef: FB.CollectionRef?
+    var firestore: FirebaseFirestore<FB>!
+    var userRef: FB.CollectionRef!
     var usersListener: ListenerRegistration!
 
-    var firestore: FirebaseFirestore<FB>!
+    init(firestore: FirebaseFirestore<FB>) {
+        self.firestore = firestore
+        print("First")
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -54,9 +63,9 @@ class ViewController<FB: FBFirestore>: UIViewController {
 
 //        firestore = FirebaseFirestore<Firestore>(database: Firestore.firestore())
 
-        var userRef = firestore.database.collection("users")
+        userRef = firestore.database.collection("users")
 
-        var usersListener = userRef.addSnapshotListener({ (querySnapshot, error) in
+        usersListener = userRef.addSnapshotListener({ (querySnapshot, error) in
             if let error = error {
                 print("Error: \(error)")
             } else if let querySnapshot = querySnapshot {
@@ -71,6 +80,8 @@ class ViewController<FB: FBFirestore>: UIViewController {
                 print("--------------")
             }
         })
+
+        print("Second")
 //
 //        createFirstUser()
 //        createSecondUser()

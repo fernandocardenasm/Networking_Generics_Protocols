@@ -20,9 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // [START default_firestore]
         FirebaseApp.configure()
 
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.makeKeyAndVisible()
         let db = Firestore.firestore()
-        // [END default_firestore]
-        print(db) // silence warning
+        window?.rootViewController = UINavigationController(rootViewController: ViewController(firestore: FirebaseFirestore(database: db)))
         
         return true
     }
