@@ -10,11 +10,13 @@ import CryptoSwift
 import Firebase
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController<FB: FBFirestore>: UIViewController {
 //    var usersListener: ListenerRegistration!
 
-    var userRef: CollectionReference!
+    var userRef: FB.CollectionRef?
     var usersListener: ListenerRegistration!
+
+    var firestore: FirebaseFirestore<FB>!
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -37,8 +39,9 @@ class ViewController: UIViewController {
 
         let configuration = URLSessionConfiguration.default
         // This value is empiric and given in seconds, the default value given by Apple is 60 seconds
-        configuration.timeoutIntervalForRequest = Constants.timeoutForRequestSeconds
-        let marvelAPI = MarvelAPI(session: URLSession(configuration: configuration))
+//        configuration.timeoutIntervalForRequest = Constants.timeoutForRequestSeconds
+//        configuration.timeoutIntervalForRequest = 10.0
+//        let marvelAPI = MarvelAPI(session: URLSession(configuration: configuration))
 //        marvelAPI.run()
 //        marvelAPI.downloadResponse(for: GetComicCharactersRequest()) { result in
 //            switch result {
@@ -49,9 +52,11 @@ class ViewController: UIViewController {
 //            }
 //        }
 
-        userRef = Firestore.firestore().collection("users")
+//        firestore = FirebaseFirestore<Firestore>(database: Firestore.firestore())
 
-        usersListener = userRef.addSnapshotListener({ (querySnapshot, error) in
+        var userRef = firestore.database.collection("users")
+
+        var usersListener = userRef.addSnapshotListener({ (querySnapshot, error) in
             if let error = error {
                 print("Error: \(error)")
             } else if let querySnapshot = querySnapshot {
@@ -80,9 +85,9 @@ class ViewController: UIViewController {
 
     private func createFirstUser() {
         // Add a new document with a generated ID
-        var ref: DocumentReference? = nil
-        let db = Firestore.firestore()
-        ref = db.collection("users").addDocument(data: [
+        var ref: FBDocumentReference? = nil
+//        let db = Firestore.firestore()
+        ref = firestore.database.collection("users").addDocument(data: [
             "first": "Ada",
             "last": "Lovelace",
             "born": 1815
@@ -96,10 +101,10 @@ class ViewController: UIViewController {
     }
 
     private func createSecondUser() {
-        let db = Firestore.firestore()
+//        let db = Firestore.firestore()
         // Add a second document with a generated ID.
-        var ref: DocumentReference? = nil
-        ref = db.collection("users").addDocument(data: [
+        var ref: FBDocumentReference? = nil
+        ref = firestore.database.collection("users").addDocument(data: [
             "first": "Alan",
             "middle": "Mathison",
             "last": "Turing",
@@ -114,8 +119,8 @@ class ViewController: UIViewController {
     }
 
     func allUsers() {
-        let db = Firestore.firestore()
-        db.collection("users").getDocuments() { (querySnapshot, err) in
+//        let db = Firestore.firestore()
+        firestore.database.collection("users").getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -127,7 +132,13 @@ class ViewController: UIViewController {
     }
 }
 
-class FirDatabase<F: FBFirestore> {
+protocol FirebaseService {
+    associatedtype Database
+
+    var database: Database { get }
+}
+
+class FirebaseFirestore<F: FBFirestore>: FirebaseService {
     let database: F
 
     init(database: F) {
@@ -136,7 +147,7 @@ class FirDatabase<F: FBFirestore> {
 }
 
 protocol FBFirestore {
-    associatedtype CollectionRef: FBCollectionReference
+    associatedtype CollectionRef: FBCollectionReference & FBQuery
     func collection(_ collectionPath: String) -> CollectionRef
 }
 
@@ -180,10 +191,10 @@ protocol FBQuery {
 extension Query: FBQuery { }
 
 protocol FBQuerySnapshot {
-    associatedtype DocSnapshot: QueryDocumentSnapshot
+    associatedtype QueryDocSnapshot: FBQueryDocumentSnapshot
     associatedtype DocChange: FBDocumentChange
 
-    var documents: [DocSnapshot] { get }
+    var documents: [QueryDocSnapshot] { get }
 
     var documentChanges: [DocChange] { get }
 
@@ -202,14 +213,18 @@ protocol FBQueryDocumentSnapshot {
 
 extension QueryDocumentSnapshot: FBQueryDocumentSnapshot {}
 
-protocol FBDocumentChange {}
+protocol FBDocumentChange {
+    associatedtype QueryDocSnapshot: FBQueryDocumentSnapshot
+
+    var document: QueryDocSnapshot { get }
+}
 
 extension DocumentChange: FBDocumentChange {}
 
 extension ViewController {
     private struct Constants {
         // This value is empiric, the default value given by Apple is 60 seconds
-        static let timeoutForRequestSeconds = 10.0
+        let timeoutForRequestSeconds = 10.0
     }
 }
 
@@ -381,3 +396,12 @@ protocol DataTask {
 }
 
 extension URLSessionDataTask: DataTask {}
+
+
+class House<S: FBFirestore> {
+    var marvelAPI: FirebaseFirestore<S>?
+
+    func something() {
+        marvelAPI?.database.collection("").addDocument(data: ["": 2])
+    }
+}
