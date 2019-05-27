@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class CharactersViewController: UIViewController {
 
@@ -32,6 +33,7 @@ class CharactersViewController: UIViewController {
 
     @objc func handleAddCharacter(sender: UIBarButtonItem) {
         print("Button Tapped")
-        navigationController?.pushViewController(AddCharacterViewController(), animated: true)
+        let viewController = AddCharacterViewController(repositoryService: FirebaseRepositoryServiceImpl(database: Firestore.firestore()))
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }

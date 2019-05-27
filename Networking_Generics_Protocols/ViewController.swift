@@ -193,11 +193,11 @@ protocol FirebaseLoginService {
     func allUsers()
 }
 
-class FirebaseServiceImpl<FB: Firestore>: FirebaseLoginService {
+class FirebaseServiceImpl<Database: FBFirestore>: FirebaseLoginService {
 
-    let database: FB
+    let database: Database
 
-    init(database: FB) {
+    init(database: Database) {
         self.database = database
     }
 
@@ -217,6 +217,33 @@ class FirebaseServiceImpl<FB: Firestore>: FirebaseLoginService {
     }
 
     func allUsers() {
+    }
+}
+
+protocol FirebaseRepositoryService {
+    func addProduct(name: String)
+}
+
+class FirebaseRepositoryServiceImpl<Database: FBFirestore>: FirebaseRepositoryService {
+
+    let database: Database
+
+    init(database: Database) {
+        self.database = database
+    }
+
+    func addProduct(name: String) {
+        var ref: FBDocumentReference? = nil
+        //        let db = Firestore.firestore()
+        ref = database.collection("products").addDocument(data: [
+            "name": name
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with ID: \(ref?.documentID ?? "Emtpy Id")")
+            }
+        }
     }
 }
 

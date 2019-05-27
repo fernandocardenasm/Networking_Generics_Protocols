@@ -10,6 +10,18 @@ import UIKit
 
 class AddCharacterViewController: UIViewController {
 
+    var repositoryService: FirebaseRepositoryService!
+
+    init(repositoryService: FirebaseRepositoryService) {
+        self.repositoryService = repositoryService
+
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     lazy var addCharacterButtonItem: UIBarButtonItem = {
         let item = UIBarButtonItem(title: "Save",
                                    style: .plain,
@@ -41,8 +53,9 @@ class AddCharacterViewController: UIViewController {
 
         view.backgroundColor = UIColor(red: 43/255.0, green: 43/255.0, blue: 45/255.0, alpha: 1.0)
     }
-
+    
     @objc func handleAddCharacter(sender: UIBarButtonItem) {
-        print("Button Tapped                            ")
+        print("Button Tapped")
+        repositoryService.addProduct(name: nameTextField.text ?? "")
     }
 }
