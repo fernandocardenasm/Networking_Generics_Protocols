@@ -3,12 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		6B7DE66007482E2100B1A87F /* Pods_Networking_Generics_ProtocolsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA4D926DCCE9B4826FB05A53 /* Pods_Networking_Generics_ProtocolsTests.framework */; };
 		72A066CB60092609D78ABE5D /* Pods_Networking_Generics_Protocols.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08392B88A7B5FB5170ADB253 /* Pods_Networking_Generics_Protocols.framework */; };
+		A4936F8A229C39470039B506 /* CharactersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4936F89229C39470039B506 /* CharactersViewController.swift */; };
+		A4936F8C229C3DF20039B506 /* AddCharacterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4936F8B229C3DF20039B506 /* AddCharacterViewController.swift */; };
 		A4DE4C222296B4BC002B1D24 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DE4C212296B4BC002B1D24 /* GlobalConstants.swift */; };
 		A4F73F482296D23D00E0DBDC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A4F73F472296D23D00E0DBDC /* GoogleService-Info.plist */; };
 		ED0880CB2295D27000C72832 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0880CA2295D27000C72832 /* AppDelegate.swift */; };
@@ -35,6 +37,8 @@
 		0ECE0BB47BA1BC8D31D7AC92 /* Pods-Networking_Generics_Protocols.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking_Generics_Protocols.release.xcconfig"; path = "Target Support Files/Pods-Networking_Generics_Protocols/Pods-Networking_Generics_Protocols.release.xcconfig"; sourceTree = "<group>"; };
 		4CE92ECA8394E35805D9581C /* Pods-Networking_Generics_Protocols.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking_Generics_Protocols.debug.xcconfig"; path = "Target Support Files/Pods-Networking_Generics_Protocols/Pods-Networking_Generics_Protocols.debug.xcconfig"; sourceTree = "<group>"; };
 		96D2F706B9D45250DB2F6DF0 /* Pods-Networking_Generics_ProtocolsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking_Generics_ProtocolsTests.debug.xcconfig"; path = "Target Support Files/Pods-Networking_Generics_ProtocolsTests/Pods-Networking_Generics_ProtocolsTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A4936F89229C39470039B506 /* CharactersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewController.swift; sourceTree = "<group>"; };
+		A4936F8B229C3DF20039B506 /* AddCharacterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCharacterViewController.swift; sourceTree = "<group>"; };
 		A4DE4C212296B4BC002B1D24 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		A4F73F472296D23D00E0DBDC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BA4D926DCCE9B4826FB05A53 /* Pods_Networking_Generics_ProtocolsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Networking_Generics_ProtocolsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,6 +125,8 @@
 				ED0880D62295D27300C72832 /* Info.plist */,
 				A4F73F472296D23D00E0DBDC /* GoogleService-Info.plist */,
 				A4DE4C212296B4BC002B1D24 /* GlobalConstants.swift */,
+				A4936F89229C39470039B506 /* CharactersViewController.swift */,
+				A4936F8B229C3DF20039B506 /* AddCharacterViewController.swift */,
 			);
 			path = Networking_Generics_Protocols;
 			sourceTree = "<group>";
@@ -321,6 +327,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4936F8C229C3DF20039B506 /* AddCharacterViewController.swift in Sources */,
+				A4936F8A229C39470039B506 /* CharactersViewController.swift in Sources */,
 				ED0880CD2295D27000C72832 /* ViewController.swift in Sources */,
 				A4DE4C222296B4BC002B1D24 /* GlobalConstants.swift in Sources */,
 				ED0880CB2295D27000C72832 /* AppDelegate.swift in Sources */,
