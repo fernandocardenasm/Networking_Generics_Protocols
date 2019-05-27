@@ -24,7 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         let db = Firestore.firestore()
 //        window?.rootViewController = UINavigationController(rootViewController: ViewController(firestore: FirebaseFirestore(database: db)))
-        window?.rootViewController = ViewController(firestore: FirebaseFirestore(database: db))
+        window?.rootViewController = ViewController(firestore: FirebaseFirestore(database: db),
+                                                    loginService: FirebaseServiceImpl(database: Firestore.firestore()))
 
         
         return true

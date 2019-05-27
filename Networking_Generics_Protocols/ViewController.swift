@@ -16,9 +16,18 @@ class ViewController<FB: FBFirestore>: UIViewController {
     var userRef: FB.CollectionRef!
     var usersListener: ListenerRegistration!
 
-    init(firestore: FirebaseFirestore<FB>) {
+    var loginService: FirebaseLoginService!
+
+    init(firestore: FirebaseFirestore<FB>,
+         loginService: FirebaseLoginService) {
         self.firestore = firestore
+        self.loginService = loginService
+//        self.firebaseService = firebaseService
         super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     lazy var usernameTextField: UITextField = {
@@ -41,12 +50,10 @@ class ViewController<FB: FBFirestore>: UIViewController {
         let button = UIButton()
         button.backgroundColor = .black
         button.setTitle("Register", for: .normal)
+
+        button.addTarget(self, action: #selector(handleRegisterUser), for: .touchUpInside)
         return button
     }()
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -162,39 +169,8 @@ class ViewController<FB: FBFirestore>: UIViewController {
         usersListener.remove()
     }
 
-    private func createFirstUser() {
-        // Add a new document with a generated ID
-        var ref: FBDocumentReference? = nil
-//        let db = Firestore.firestore()
-        ref = firestore.database.collection("users").addDocument(data: [
-            "first": "Ada",
-            "last": "Lovelace",
-            "born": 1815
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with ID: \(ref!.documentID)")
-            }
-        }
-    }
-
-    private func createSecondUser() {
-//        let db = Firestore.firestore()
-        // Add a second document with a generated ID.
-        var ref: FBDocumentReference? = nil
-        ref = firestore.database.collection("users").addDocument(data: [
-            "first": "Alan",
-            "middle": "Mathison",
-            "last": "Turing",
-            "born": 1912
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with ID: \(ref!.documentID)")
-            }
-        }
+    @objc func handleRegisterUser(sender: UIButton) {
+        loginService.createUser(username: usernameTextField.text ?? "", password: passwordTextField.text ?? "")
     }
 
     func allUsers() {
@@ -211,13 +187,40 @@ class ViewController<FB: FBFirestore>: UIViewController {
     }
 }
 
-protocol FirebaseService {
-    associatedtype Database
+protocol FirebaseLoginService {
+    func createUser(username: String, password: String)
 
-    var database: Database { get }
+    func allUsers()
 }
 
-class FirebaseFirestore<F: FBFirestore>: FirebaseService {
+class FirebaseServiceImpl<FB: Firestore>: FirebaseLoginService {
+
+    let database: FB
+
+    init(database: FB) {
+        self.database = database
+    }
+
+    func createUser(username: String, password: String) {
+        var ref: FBDocumentReference? = nil
+        //        let db = Firestore.firestore()
+        ref = database.collection("users").addDocument(data: [
+            "username": username,
+            "password": password
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with ID: \(ref?.documentID ?? "Emtpy Id")")
+            }
+        }
+    }
+
+    func allUsers() {
+    }
+}
+
+class FirebaseFirestore<F: FBFirestore> {
     let database: F
 
     init(database: F) {
