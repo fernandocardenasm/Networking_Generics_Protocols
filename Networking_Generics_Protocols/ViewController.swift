@@ -7,33 +7,235 @@
 //
 
 import CryptoSwift
+import Firebase
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController<FB: FBFirestore>: UIViewController {
+//    var usersListener: ListenerRegistration!
+
+    var firestore: FirebaseFirestore<FB>!
+    var userRef: FB.CollectionRef!
+    var usersListener: ListenerRegistration!
+
+    init(firestore: FirebaseFirestore<FB>) {
+        self.firestore = firestore
+        print("First")
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+//        usersListener = userRef.addSnapshotListener { (collectionSnapshot, error) in
+//            guard let collectionSnapshot = collectionSnapshot, !collectionSnapshot.documentChanges.isEmpty  else { return }
+//
+//            collectionSnapshot.documentChanges.forEach {
+//                print($0.document.data())
+//                print("--------------")
+//            }
+//        }
+        createFirstUser()
+        createSecondUser()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
 
         let configuration = URLSessionConfiguration.default
         // This value is empiric and given in seconds, the default value given by Apple is 60 seconds
-        configuration.timeoutIntervalForRequest = Constants.timeoutForRequestSeconds
-        let marvelAPI = MarvelAPI(session: URLSession(configuration: configuration))
+//        configuration.timeoutIntervalForRequest = Constants.timeoutForRequestSeconds
+//        configuration.timeoutIntervalForRequest = 10.0
+//        let marvelAPI = MarvelAPI(session: URLSession(configuration: configuration))
 //        marvelAPI.run()
-        marvelAPI.downloadResponse(for: GetComicCharactersRequest()) { result in
-            switch result {
-            case .success(let data):
-                print(data)
-            case .failure(let error):
-                print(error.localizedDescription)
+//        marvelAPI.downloadResponse(for: GetComicCharactersRequest()) { result in
+//            switch result {
+//            case .success(let data):
+//                print(data)
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
+
+//        firestore = FirebaseFirestore<Firestore>(database: Firestore.firestore())
+
+        userRef = firestore.database.collection("users")
+
+        usersListener = userRef.addSnapshotListener({ (querySnapshot, error) in
+            if let error = error {
+                print("Error: \(error)")
+            } else if let querySnapshot = querySnapshot {
+                guard !querySnapshot.documentChanges.isEmpty else {
+                    print("No documents changed")
+                    return
+                }
+                querySnapshot.documentChanges.forEach {
+                    print("Document Data: \($0.document.data())")
+                }
+                print("Changes: \(querySnapshot.documentChanges.count)")
+                print("--------------")
+            }
+        })
+
+        print("Second")
+//
+//        createFirstUser()
+//        createSecondUser()
+//        allUsers()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        usersListener.remove()
+    }
+
+    private func createFirstUser() {
+        // Add a new document with a generated ID
+        var ref: FBDocumentReference? = nil
+//        let db = Firestore.firestore()
+        ref = firestore.database.collection("users").addDocument(data: [
+            "first": "Ada",
+            "last": "Lovelace",
+            "born": 1815
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with ID: \(ref!.documentID)")
+            }
+        }
+    }
+
+    private func createSecondUser() {
+//        let db = Firestore.firestore()
+        // Add a second document with a generated ID.
+        var ref: FBDocumentReference? = nil
+        ref = firestore.database.collection("users").addDocument(data: [
+            "first": "Alan",
+            "middle": "Mathison",
+            "last": "Turing",
+            "born": 1912
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with ID: \(ref!.documentID)")
+            }
+        }
+    }
+
+    func allUsers() {
+//        let db = Firestore.firestore()
+        firestore.database.collection("users").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                }
             }
         }
     }
 }
 
+protocol FirebaseService {
+    associatedtype Database
+
+    var database: Database { get }
+}
+
+class FirebaseFirestore<F: FBFirestore>: FirebaseService {
+    let database: F
+
+    init(database: F) {
+        self.database = database
+    }
+}
+
+protocol FBFirestore {
+    associatedtype CollectionRef: FBCollectionReference & FBQuery
+    func collection(_ collectionPath: String) -> CollectionRef
+}
+
+extension Firestore: FBFirestore {}
+
+protocol FBCollectionReference {
+    associatedtype DocumentRef: FBDocumentReference
+
+    var collectionID: String { get }
+
+    func document() -> DocumentRef
+
+    func addDocument(data: [String: Any]) -> DocumentRef
+
+    func addDocument(data: [String: Any], completion: ((Error?) -> Void)?) -> DocumentRef
+
+    // TODO: The protocol that conforms to this one, may also need to implement FBQuery because CollectionReference is a subclass of FBQuery
+}
+
+extension CollectionReference: FBCollectionReference {}
+
+protocol FBDocumentReference {
+    var documentID: String { get }
+}
+
+extension DocumentReference: FBDocumentReference {}
+
+protocol FBQuery {
+    associatedtype Database: FBFirestore
+    // Query Snapshot
+    associatedtype Snapshot: FBQuerySnapshot
+
+    var firestore: Database { get }
+
+    func getDocuments(completion: @escaping (Snapshot?, Error?) -> Void)
+
+    // ListenerRegistration is already a protocol. For that reason, nonextra associatedType is needed.
+    func addSnapshotListener(_ listener: @escaping (Snapshot?, Error?) -> Void) -> ListenerRegistration
+}
+
+extension Query: FBQuery { }
+
+protocol FBQuerySnapshot {
+    associatedtype QueryDocSnapshot: FBQueryDocumentSnapshot
+    associatedtype DocChange: FBDocumentChange
+
+    var documents: [QueryDocSnapshot] { get }
+
+    var documentChanges: [DocChange] { get }
+
+    var isEmpty: Bool { get }
+
+    var count: Int { get }
+}
+
+extension QuerySnapshot: FBQuerySnapshot {}
+
+protocol FBQueryDocumentSnapshot {
+    var documentID: String { get }
+
+    func data() -> [String: Any]
+}
+
+extension QueryDocumentSnapshot: FBQueryDocumentSnapshot {}
+
+protocol FBDocumentChange {
+    associatedtype QueryDocSnapshot: FBQueryDocumentSnapshot
+
+    var document: QueryDocSnapshot { get }
+}
+
+extension DocumentChange: FBDocumentChange {}
+
 extension ViewController {
     private struct Constants {
         // This value is empiric, the default value given by Apple is 60 seconds
-        static let timeoutForRequestSeconds = 10.0
+        let timeoutForRequestSeconds = 10.0
     }
 }
 
@@ -205,3 +407,12 @@ protocol DataTask {
 }
 
 extension URLSessionDataTask: DataTask {}
+
+
+class House<S: FBFirestore> {
+    var marvelAPI: FirebaseFirestore<S>?
+
+    func something() {
+        marvelAPI?.database.collection("").addDocument(data: ["": 2])
+    }
+}

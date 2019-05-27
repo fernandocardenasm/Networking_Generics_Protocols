@@ -10,6 +10,7 @@
 		6B7DE66007482E2100B1A87F /* Pods_Networking_Generics_ProtocolsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA4D926DCCE9B4826FB05A53 /* Pods_Networking_Generics_ProtocolsTests.framework */; };
 		72A066CB60092609D78ABE5D /* Pods_Networking_Generics_Protocols.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08392B88A7B5FB5170ADB253 /* Pods_Networking_Generics_Protocols.framework */; };
 		A4DE4C222296B4BC002B1D24 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DE4C212296B4BC002B1D24 /* GlobalConstants.swift */; };
+		A4F73F482296D23D00E0DBDC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A4F73F472296D23D00E0DBDC /* GoogleService-Info.plist */; };
 		ED0880CB2295D27000C72832 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0880CA2295D27000C72832 /* AppDelegate.swift */; };
 		ED0880CD2295D27000C72832 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0880CC2295D27000C72832 /* ViewController.swift */; };
 		ED0880D02295D27000C72832 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED0880CE2295D27000C72832 /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 		4CE92ECA8394E35805D9581C /* Pods-Networking_Generics_Protocols.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking_Generics_Protocols.debug.xcconfig"; path = "Target Support Files/Pods-Networking_Generics_Protocols/Pods-Networking_Generics_Protocols.debug.xcconfig"; sourceTree = "<group>"; };
 		96D2F706B9D45250DB2F6DF0 /* Pods-Networking_Generics_ProtocolsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking_Generics_ProtocolsTests.debug.xcconfig"; path = "Target Support Files/Pods-Networking_Generics_ProtocolsTests/Pods-Networking_Generics_ProtocolsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A4DE4C212296B4BC002B1D24 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
+		A4F73F472296D23D00E0DBDC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BA4D926DCCE9B4826FB05A53 /* Pods_Networking_Generics_ProtocolsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Networking_Generics_ProtocolsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED0880C72295D27000C72832 /* Networking_Generics_Protocols.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Networking_Generics_Protocols.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED0880CA2295D27000C72832 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -85,7 +87,6 @@
 				96D2F706B9D45250DB2F6DF0 /* Pods-Networking_Generics_ProtocolsTests.debug.xcconfig */,
 				0C0F1F4C23164487BDC71357 /* Pods-Networking_Generics_ProtocolsTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -118,6 +119,7 @@
 				ED0880D12295D27300C72832 /* Assets.xcassets */,
 				ED0880D32295D27300C72832 /* LaunchScreen.storyboard */,
 				ED0880D62295D27300C72832 /* Info.plist */,
+				A4F73F472296D23D00E0DBDC /* GoogleService-Info.plist */,
 				A4DE4C212296B4BC002B1D24 /* GlobalConstants.swift */,
 			);
 			path = Networking_Generics_Protocols;
@@ -218,6 +220,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED0880D52295D27300C72832 /* LaunchScreen.storyboard in Resources */,
+				A4F73F482296D23D00E0DBDC /* GoogleService-Info.plist in Resources */,
 				ED0880D22295D27300C72832 /* Assets.xcassets in Resources */,
 				ED0880D02295D27000C72832 /* Main.storyboard in Resources */,
 			);
@@ -261,16 +264,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Networking_Generics_Protocols/Pods-Networking_Generics_Protocols-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Networking_Generics_Protocols/Pods-Networking_Generics_Protocols-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Networking_Generics_Protocols/Pods-Networking_Generics_Protocols-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -305,16 +303,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Networking_Generics_ProtocolsTests/Pods-Networking_Generics_ProtocolsTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Networking_Generics_ProtocolsTests/Pods-Networking_Generics_ProtocolsTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Networking_Generics_ProtocolsTests/Pods-Networking_Generics_ProtocolsTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
