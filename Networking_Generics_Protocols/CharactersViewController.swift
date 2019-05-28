@@ -6,14 +6,21 @@
 //  Copyright © 2019 Fernando. All rights reserved.
 //
 
-import UIKit
 import Firebase
+import UIKit
 
-class CharactersViewController: UIViewController {
+class CharactersViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 
     var repositoryService: FirebaseRepositoryService!
 
-    private var products: [Product] = []
+    var charactersCollectionView: UICollectionView!
+
+    private var products: [Product] = [] {
+        didSet {
+            print("Were Set")
+            charactersCollectionView.reloadData()
+        }
+    }
 
     init(repositoryService: FirebaseRepositoryService) {
         self.repositoryService = repositoryService
@@ -36,25 +43,76 @@ class CharactersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor(red: 43/255.0, green: 43/255.0, blue: 45/255.0, alpha: 1.0)
+        view.backgroundColor = UIColor(red: 43 / 255.0, green: 43 / 255.0, blue: 45 / 255.0, alpha: 1.0)
 
         navigationItem.rightBarButtonItem = addCharacterButtonItem
 
         repositoryService.productsCallback = { products in
             self.products = products
-            print("Callback Products")
+            print("Callback Products: \(products.count)")
         }
+
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: 100, height: 100)
+
+        charactersCollectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
+        charactersCollectionView.dataSource = self
+        charactersCollectionView.delegate = self
+        charactersCollectionView.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+        charactersCollectionView.showsVerticalScrollIndicator = false
+        charactersCollectionView.backgroundColor = .white
+        self.view.addSubview(charactersCollectionView)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        print("These Products: \(products.count)")
     }
 
     @objc func handleAddCharacter(sender: UIBarButtonItem) {
         print("Button Tapped")
         let viewController = AddCharacterViewController(repositoryService: repositoryService)
         navigationController?.pushViewController(viewController, animated: true)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return products.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = charactersCollectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! CharacterCollectionViewCell
+
+        cell.nameLabel.text = products[indexPath.item].id
+        return cell
+    }
+}
+
+class CharacterCollectionViewCell: UICollectionViewCell {
+    lazy var nameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "To be set..."
+        label.textAlignment = .center
+        label.backgroundColor = UIColor(red: 70 / 255.0, green: 65 / 255.0, blue: 63 / 255.0, alpha: 1.0)
+        return label
+    }()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        setupViews()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func setupViews() {
+        addSubview(nameLabel)
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        [nameLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 5),
+         nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+         nameLabel.heightAnchor.constraint(equalToConstant: 100),
+         nameLabel.widthAnchor.constraint(equalToConstant: 100)].forEach { $0.isActive = true }
     }
 }

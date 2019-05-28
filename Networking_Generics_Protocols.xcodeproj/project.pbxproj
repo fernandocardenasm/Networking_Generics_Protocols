@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6B7DE66007482E2100B1A87F /* Pods_Networking_Generics_ProtocolsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA4D926DCCE9B4826FB05A53 /* Pods_Networking_Generics_ProtocolsTests.framework */; };
 		72A066CB60092609D78ABE5D /* Pods_Networking_Generics_Protocols.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08392B88A7B5FB5170ADB253 /* Pods_Networking_Generics_Protocols.framework */; };
+		A47E9D4F229D62B900C8C68B /* FirebaseRepositoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47E9D4E229D62B900C8C68B /* FirebaseRepositoryService.swift */; };
 		A4936F8A229C39470039B506 /* CharactersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4936F89229C39470039B506 /* CharactersViewController.swift */; };
 		A4936F8C229C3DF20039B506 /* AddCharacterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4936F8B229C3DF20039B506 /* AddCharacterViewController.swift */; };
 		A4DE4C222296B4BC002B1D24 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DE4C212296B4BC002B1D24 /* GlobalConstants.swift */; };
@@ -37,6 +38,7 @@
 		0ECE0BB47BA1BC8D31D7AC92 /* Pods-Networking_Generics_Protocols.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking_Generics_Protocols.release.xcconfig"; path = "Target Support Files/Pods-Networking_Generics_Protocols/Pods-Networking_Generics_Protocols.release.xcconfig"; sourceTree = "<group>"; };
 		4CE92ECA8394E35805D9581C /* Pods-Networking_Generics_Protocols.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking_Generics_Protocols.debug.xcconfig"; path = "Target Support Files/Pods-Networking_Generics_Protocols/Pods-Networking_Generics_Protocols.debug.xcconfig"; sourceTree = "<group>"; };
 		96D2F706B9D45250DB2F6DF0 /* Pods-Networking_Generics_ProtocolsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking_Generics_ProtocolsTests.debug.xcconfig"; path = "Target Support Files/Pods-Networking_Generics_ProtocolsTests/Pods-Networking_Generics_ProtocolsTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A47E9D4E229D62B900C8C68B /* FirebaseRepositoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRepositoryService.swift; sourceTree = "<group>"; };
 		A4936F89229C39470039B506 /* CharactersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewController.swift; sourceTree = "<group>"; };
 		A4936F8B229C3DF20039B506 /* AddCharacterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCharacterViewController.swift; sourceTree = "<group>"; };
 		A4DE4C212296B4BC002B1D24 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				A4DE4C212296B4BC002B1D24 /* GlobalConstants.swift */,
 				A4936F89229C39470039B506 /* CharactersViewController.swift */,
 				A4936F8B229C3DF20039B506 /* AddCharacterViewController.swift */,
+				A47E9D4E229D62B900C8C68B /* FirebaseRepositoryService.swift */,
 			);
 			path = Networking_Generics_Protocols;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A47E9D4F229D62B900C8C68B /* FirebaseRepositoryService.swift in Sources */,
 				A4936F8C229C3DF20039B506 /* AddCharacterViewController.swift in Sources */,
 				A4936F8A229C39470039B506 /* CharactersViewController.swift in Sources */,
 				ED0880CD2295D27000C72832 /* ViewController.swift in Sources */,
