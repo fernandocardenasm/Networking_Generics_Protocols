@@ -11,10 +11,18 @@ import Firebase
 
 class CharactersViewController: UIViewController {
 
-    var characters: [String] = [""] {
-        didSet{
-            print("Did set")
-        }
+    var repositoryService: FirebaseRepositoryService!
+
+    private var products: [Product] = []
+
+    init(repositoryService: FirebaseRepositoryService) {
+        self.repositoryService = repositoryService
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     lazy var addCharacterButtonItem: UIBarButtonItem = {
@@ -28,12 +36,25 @@ class CharactersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = UIColor(red: 43/255.0, green: 43/255.0, blue: 45/255.0, alpha: 1.0)
+
         navigationItem.rightBarButtonItem = addCharacterButtonItem
+
+        repositoryService.productsCallback = { products in
+            self.products = products
+            print("Callback Products")
+        }
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        print("These Products: \(products.count)")
     }
 
     @objc func handleAddCharacter(sender: UIBarButtonItem) {
         print("Button Tapped")
-        let viewController = AddCharacterViewController(repositoryService: FirebaseRepositoryServiceImpl(database: Firestore.firestore()))
+        let viewController = AddCharacterViewController(repositoryService: repositoryService)
         navigationController?.pushViewController(viewController, animated: true)
     }
 }

@@ -53,9 +53,9 @@ class AddCharacterViewController: UIViewController {
 
         view.backgroundColor = UIColor(red: 43/255.0, green: 43/255.0, blue: 45/255.0, alpha: 1.0)
     }
-    
+
     @objc func handleAddCharacter(sender: UIBarButtonItem) {
-        print("Button Tapped")
+        print("Save Button Tapped")
         repositoryService.addProduct(name: nameTextField.text ?? "")
     }
 }
