@@ -21,7 +21,6 @@ class FirebaseRepositoryServiceImpl<Database: FBFirestore>: FirebaseRepositorySe
 
     var productsCallback: (([Product]) -> Void)?
 
-
     init(database: Database) {
         self.database = database
 
@@ -44,8 +43,8 @@ class FirebaseRepositoryServiceImpl<Database: FBFirestore>: FirebaseRepositorySe
                     print("No documents changed")
                     return
                 }
-                let products = querySnapshot.documentChanges.map { Product(id: $0.document.documentID,
-                                                                           data: $0.document.data()) }
+                let products = querySnapshot.documents.map { Product(id: $0.documentID,
+                                                                     data: $0.data()) }
 
                 self?.productsCallback?(products)
                 querySnapshot.documentChanges.forEach {
