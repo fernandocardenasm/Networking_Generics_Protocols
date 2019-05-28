@@ -7,6 +7,7 @@
 //
 
 import Firebase
+import RxSwift
 import UIKit
 
 class CharactersViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
@@ -15,12 +16,7 @@ class CharactersViewController: UIViewController, UICollectionViewDelegateFlowLa
 
     var charactersCollectionView: UICollectionView!
 
-    private var products: [Product] = [] {
-        didSet {
-            print("Were Set")
-            charactersCollectionView.reloadData()
-        }
-    }
+    let disposeBag = DisposeBag()
 
     init(repositoryService: FirebaseRepositoryService) {
         self.repositoryService = repositoryService
@@ -47,11 +43,6 @@ class CharactersViewController: UIViewController, UICollectionViewDelegateFlowLa
 
         navigationItem.rightBarButtonItem = addCharacterButtonItem
 
-        repositoryService.productsCallback = { products in
-            self.products = products
-            print("Callback Products: \(products.count)")
-        }
-
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.itemSize = CGSize(width: 100, height: 100)
@@ -63,6 +54,11 @@ class CharactersViewController: UIViewController, UICollectionViewDelegateFlowLa
         charactersCollectionView.showsVerticalScrollIndicator = false
         charactersCollectionView.backgroundColor = .white
         self.view.addSubview(charactersCollectionView)
+
+        repositoryService.products.subscribe(onNext: { (products) in
+            print("These was called")
+            self.charactersCollectionView.reloadData()
+        }).disposed(by: disposeBag)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -76,13 +72,13 @@ class CharactersViewController: UIViewController, UICollectionViewDelegateFlowLa
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return products.count
+        return repositoryService.products.value.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = charactersCollectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! CharacterCollectionViewCell
 
-        cell.nameLabel.text = products[indexPath.item].id
+        cell.nameLabel.text = repositoryService.products.value[indexPath.item].id
         return cell
     }
 }

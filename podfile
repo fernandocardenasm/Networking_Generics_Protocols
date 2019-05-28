@@ -5,6 +5,8 @@ target 'Networking_Generics_Protocols' do
   pod 'CryptoSwift', '~> 1.0'
   pod 'Firebase/Core'
   pod 'Firebase/Firestore'
+  pod 'RxSwift', '~> 5'
+  pod 'RxCocoa', '~> 5'
 
   # RxTest and RxBlocking make the most sense in the context of unit/integration tests
   target 'Networking_Generics_ProtocolsTests' do
