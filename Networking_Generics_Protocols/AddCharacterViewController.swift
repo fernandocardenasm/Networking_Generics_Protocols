@@ -42,6 +42,7 @@ class AddCharacterViewController: UIViewController {
         super.viewDidLoad()
 
         view.addSubview(nameTextField)
+        
         nameTextField.translatesAutoresizingMaskIntoConstraints = false
 
         [nameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
