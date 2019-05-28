@@ -11,21 +11,49 @@ import Firebase
 import UIKit
 
 class ViewController<FB: FBFirestore>: UIViewController {
-//    var usersListener: ListenerRegistration!
 
     var firestore: FirebaseFirestore<FB>!
     var userRef: FB.CollectionRef!
     var usersListener: ListenerRegistration!
 
-    init(firestore: FirebaseFirestore<FB>) {
+    var loginService: FirebaseLoginService!
+
+    init(firestore: FirebaseFirestore<FB>,
+         loginService: FirebaseLoginService) {
         self.firestore = firestore
-        print("First")
+        self.loginService = loginService
+//        self.firebaseService = firebaseService
         super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    lazy var usernameTextField: UITextField = {
+        let tf = UITextField()
+        tf.backgroundColor = UIColor(red: 70/255.0, green: 65/255.0, blue: 63/255.0, alpha: 1.0)
+        tf.placeholder = "username"
+        tf.textAlignment = .center
+        return tf
+    }()
+
+    lazy var passwordTextField: UITextField = {
+        let tf = UITextField()
+        tf.backgroundColor = UIColor(red: 70/255.0, green: 65/255.0, blue: 63/255.0, alpha: 1.0)
+        tf.placeholder = "password"
+        tf.textAlignment = .center
+        return tf
+    }()
+
+    lazy var registerButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .black
+        button.setTitle("Register", for: .normal)
+
+        button.addTarget(self, action: #selector(handleRegisterUser), for: .touchUpInside)
+        return button
+    }()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -38,8 +66,8 @@ class ViewController<FB: FBFirestore>: UIViewController {
 //                print("--------------")
 //            }
 //        }
-        createFirstUser()
-        createSecondUser()
+//        createFirstUser()
+//        createSecondUser()
     }
 
     override func viewDidLoad() {
@@ -81,11 +109,58 @@ class ViewController<FB: FBFirestore>: UIViewController {
             }
         })
 
-        print("Second")
-//
-//        createFirstUser()
-//        createSecondUser()
-//        allUsers()
+        setupUI()
+    }
+
+    private func setupUI() {
+        view.backgroundColor = UIColor(red: 43/255.0, green: 43/255.0, blue: 45/255.0, alpha: 1.0)
+
+        setupUsernameTextField()
+        setupPasswordTextField()
+        setupRegisterButton()
+    }
+
+    private func setupUsernameTextField() {
+        view.addSubview(usernameTextField)
+
+        usernameTextField.translatesAutoresizingMaskIntoConstraints = false
+
+        [usernameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
+         usernameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+         usernameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+         usernameTextField.heightAnchor.constraint(equalToConstant: 50)].forEach { $0.isActive = true }
+
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        imageView.image = UIImage(named: "login_username")
+        usernameTextField.leftViewMode = .always
+        usernameTextField.leftView = imageView
+    }
+
+    private func setupPasswordTextField() {
+        view.addSubview(passwordTextField)
+
+        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+
+        [passwordTextField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: 20),
+         passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+         passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+         passwordTextField.heightAnchor.constraint(equalToConstant: 50)].forEach { $0.isActive = true }
+
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        imageView.image = UIImage(named: "login_password")
+        passwordTextField.leftViewMode = .always
+        passwordTextField.leftView = imageView
+    }
+
+    func setupRegisterButton() {
+        view.addSubview(registerButton)
+
+        registerButton.translatesAutoresizingMaskIntoConstraints = false
+
+        [registerButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
+         registerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+         registerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+         registerButton.heightAnchor.constraint(equalToConstant: 50)].forEach { $0.isActive = true }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -94,39 +169,8 @@ class ViewController<FB: FBFirestore>: UIViewController {
         usersListener.remove()
     }
 
-    private func createFirstUser() {
-        // Add a new document with a generated ID
-        var ref: FBDocumentReference? = nil
-//        let db = Firestore.firestore()
-        ref = firestore.database.collection("users").addDocument(data: [
-            "first": "Ada",
-            "last": "Lovelace",
-            "born": 1815
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with ID: \(ref!.documentID)")
-            }
-        }
-    }
-
-    private func createSecondUser() {
-//        let db = Firestore.firestore()
-        // Add a second document with a generated ID.
-        var ref: FBDocumentReference? = nil
-        ref = firestore.database.collection("users").addDocument(data: [
-            "first": "Alan",
-            "middle": "Mathison",
-            "last": "Turing",
-            "born": 1912
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with ID: \(ref!.documentID)")
-            }
-        }
+    @objc func handleRegisterUser(sender: UIButton) {
+        loginService.createUser(username: usernameTextField.text ?? "", password: passwordTextField.text ?? "")
     }
 
     func allUsers() {
@@ -143,13 +187,112 @@ class ViewController<FB: FBFirestore>: UIViewController {
     }
 }
 
-protocol FirebaseService {
-    associatedtype Database
+protocol FirebaseLoginService {
+    func createUser(username: String, password: String)
 
-    var database: Database { get }
+    func allUsers()
 }
 
-class FirebaseFirestore<F: FBFirestore>: FirebaseService {
+class FirebaseServiceImpl<Database: FBFirestore>: FirebaseLoginService {
+
+    let database: Database
+
+    init(database: Database) {
+        self.database = database
+    }
+
+    func createUser(username: String, password: String) {
+        var ref: FBDocumentReference? = nil
+        //        let db = Firestore.firestore()
+        ref = database.collection("users").addDocument(data: [
+            "username": username,
+            "password": password
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with ID: \(ref?.documentID ?? "Emtpy Id")")
+            }
+        }
+    }
+
+    func allUsers() {
+    }
+}
+
+protocol FirebaseRepositoryService {
+    func addProduct(name: String)
+    var productsCallback: (([Product]) -> Void)? { get set }
+}
+
+class FirebaseRepositoryServiceImpl<Database: FBFirestore>: FirebaseRepositoryService {
+
+    let database: Database
+    private var productsListener: ListenerRegistration?
+
+//    struct Callbacks {
+    var productsCallback: (([Product]) -> Void)?
+//    }
+//    var callbacks = Callbacks()
+
+
+    init(database: Database) {
+        self.database = database
+
+        addProductsListener()
+    }
+
+    deinit {
+        productsListener?.remove()
+    }
+
+    private func addProductsListener() {
+        guard productsListener == nil else {
+            return
+        }
+        productsListener = database.collection("products").addSnapshotListener({ [weak self] (querySnapshot, error) in
+            if let error = error {
+                print("Error: \(error)")
+            } else if let querySnapshot = querySnapshot {
+                guard !querySnapshot.documentChanges.isEmpty else {
+                    print("No documents changed")
+                    return
+                }
+                let products = querySnapshot.documentChanges.map { Product(id: $0.document.documentID,
+                                                                           data: $0.document.data()) }
+
+                self?.productsCallback?(products)
+                querySnapshot.documentChanges.forEach {
+                    print("Document Data: \($0.document.data())")
+                }
+                print("Changes: \(querySnapshot.documentChanges.count)")
+                print("--------------")
+                print("Documents: \(querySnapshot.documents.count)")
+            }
+        })
+    }
+
+    func addProduct(name: String) {
+        var ref: FBDocumentReference? = nil
+        //        let db = Firestore.firestore()
+        ref = database.collection("products").addDocument(data: [
+            "name": name
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added with ID: \(ref?.documentID ?? "Emtpy Id")")
+            }
+        }
+    }
+}
+
+struct Product {
+    let id: String
+    let data: [String: Any]
+}
+
+class FirebaseFirestore<F: FBFirestore> {
     let database: F
 
     init(database: F) {
