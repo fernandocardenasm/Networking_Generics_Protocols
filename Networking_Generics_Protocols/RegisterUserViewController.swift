@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  SignUpViewController.swift
 //  Networking_Generics_Protocols
 //
 //  Created by Fernando on 22.05.19.
@@ -12,19 +12,12 @@ import UIKit
 
 // TODO: Refacotr this class
 
-class ViewController<FB: FBFirestore>: UIViewController {
+class RegisterUserViewController: UIViewController {
+    let loginService: FirebaseLoginService
+    weak var coordinator: Coordinator?
 
-    var firestore: FirebaseFirestore<FB>!
-    var userRef: FB.CollectionRef!
-    var usersListener: ListenerRegistration!
-
-    var loginService: FirebaseLoginService!
-
-    init(firestore: FirebaseFirestore<FB>,
-         loginService: FirebaseLoginService) {
-        self.firestore = firestore
+    init(loginService: FirebaseLoginService) {
         self.loginService = loginService
-//        self.firebaseService = firebaseService
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -33,19 +26,19 @@ class ViewController<FB: FBFirestore>: UIViewController {
     }
 
     lazy var usernameTextField: UITextField = {
-        let tf = UITextField()
-        tf.backgroundColor = UIColor(red: 70/255.0, green: 65/255.0, blue: 63/255.0, alpha: 1.0)
-        tf.placeholder = "username"
-        tf.textAlignment = .center
-        return tf
+        let textField = UITextField()
+        textField.backgroundColor = UIColor(red: 70 / 255.0, green: 65 / 255.0, blue: 63 / 255.0, alpha: 1.0)
+        textField.placeholder = "username"
+        textField.textAlignment = .center
+        return textField
     }()
 
     lazy var passwordTextField: UITextField = {
-        let tf = UITextField()
-        tf.backgroundColor = UIColor(red: 70/255.0, green: 65/255.0, blue: 63/255.0, alpha: 1.0)
-        tf.placeholder = "password"
-        tf.textAlignment = .center
-        return tf
+        let textField = UITextField()
+        textField.backgroundColor = UIColor(red: 70 / 255.0, green: 65 / 255.0, blue: 63 / 255.0, alpha: 1.0)
+        textField.placeholder = "password"
+        textField.textAlignment = .center
+        return textField
     }()
 
     lazy var registerButton: UIButton = {
@@ -56,21 +49,6 @@ class ViewController<FB: FBFirestore>: UIViewController {
         button.addTarget(self, action: #selector(handleRegisterUser), for: .touchUpInside)
         return button
     }()
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-//        usersListener = userRef.addSnapshotListener { (collectionSnapshot, error) in
-//            guard let collectionSnapshot = collectionSnapshot, !collectionSnapshot.documentChanges.isEmpty  else { return }
-//
-//            collectionSnapshot.documentChanges.forEach {
-//                print($0.document.data())
-//                print("--------------")
-//            }
-//        }
-//        createFirstUser()
-//        createSecondUser()
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,29 +71,11 @@ class ViewController<FB: FBFirestore>: UIViewController {
 
 //        firestore = FirebaseFirestore<Firestore>(database: Firestore.firestore())
 
-        userRef = firestore.database.collection("users")
-
-        usersListener = userRef.addSnapshotListener({ (querySnapshot, error) in
-            if let error = error {
-                print("Error: \(error)")
-            } else if let querySnapshot = querySnapshot {
-                guard !querySnapshot.documentChanges.isEmpty else {
-                    print("No documents changed")
-                    return
-                }
-                querySnapshot.documentChanges.forEach {
-                    print("Document Data: \($0.document.data())")
-                }
-                print("Changes: \(querySnapshot.documentChanges.count)")
-                print("--------------")
-            }
-        })
-
         setupUI()
     }
 
     private func setupUI() {
-        view.backgroundColor = UIColor(red: 43/255.0, green: 43/255.0, blue: 45/255.0, alpha: 1.0)
+        view.backgroundColor = UIColor(red: 43 / 255.0, green: 43 / 255.0, blue: 45 / 255.0, alpha: 1.0)
 
         setupUsernameTextField()
         setupPasswordTextField()
@@ -165,38 +125,19 @@ class ViewController<FB: FBFirestore>: UIViewController {
          registerButton.heightAnchor.constraint(equalToConstant: 50)].forEach { $0.isActive = true }
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        usersListener.remove()
-    }
-
     @objc func handleRegisterUser(sender: UIButton) {
         loginService.createUser(username: usernameTextField.text ?? "", password: passwordTextField.text ?? "")
     }
+}
 
-    func allUsers() {
-//        let db = Firestore.firestore()
-        firestore.database.collection("users").getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-                }
-            }
-        }
+extension SignUpViewController {
+    private struct Constants {
+        // This value is empiric, the default value given by Apple is 60 seconds
+        let timeoutForRequestSeconds = 10.0
     }
 }
 
 struct Product {
     let id: String
     let data: [String: Any]
-}
-
-extension ViewController {
-    private struct Constants {
-        // This value is empiric, the default value given by Apple is 60 seconds
-        let timeoutForRequestSeconds = 10.0
-    }
 }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6B7DE66007482E2100B1A87F /* Pods_Networking_Generics_ProtocolsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA4D926DCCE9B4826FB05A53 /* Pods_Networking_Generics_ProtocolsTests.framework */; };
 		72A066CB60092609D78ABE5D /* Pods_Networking_Generics_Protocols.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08392B88A7B5FB5170ADB253 /* Pods_Networking_Generics_Protocols.framework */; };
+		A41E53D7229EA07B007FA3B7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41E53D6229EA07B007FA3B7 /* LoginViewController.swift */; };
 		A47E9D4F229D62B900C8C68B /* FirebaseRepositoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47E9D4E229D62B900C8C68B /* FirebaseRepositoryService.swift */; };
 		A47E9D55229DD65900C8C68B /* FirebaseLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47E9D54229DD65900C8C68B /* FirebaseLoginService.swift */; };
 		A47E9D57229DD6BA00C8C68B /* FirebaseFirestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47E9D56229DD6BA00C8C68B /* FirebaseFirestore.swift */; };
@@ -16,9 +17,11 @@
 		A4936F8A229C39470039B506 /* CharactersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4936F89229C39470039B506 /* CharactersViewController.swift */; };
 		A4936F8C229C3DF20039B506 /* AddCharacterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4936F8B229C3DF20039B506 /* AddCharacterViewController.swift */; };
 		A4DE4C222296B4BC002B1D24 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4DE4C212296B4BC002B1D24 /* GlobalConstants.swift */; };
+		A4E7AD4822A05D090063281C /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E7AD4722A05D090063281C /* LoginCoordinator.swift */; };
+		A4E7AD4A22A05FCD0063281C /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E7AD4922A05FCD0063281C /* Coordinator.swift */; };
 		A4F73F482296D23D00E0DBDC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A4F73F472296D23D00E0DBDC /* GoogleService-Info.plist */; };
 		ED0880CB2295D27000C72832 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0880CA2295D27000C72832 /* AppDelegate.swift */; };
-		ED0880CD2295D27000C72832 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0880CC2295D27000C72832 /* ViewController.swift */; };
+		ED0880CD2295D27000C72832 /* RegisterUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0880CC2295D27000C72832 /* RegisterUserViewController.swift */; };
 		ED0880D02295D27000C72832 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED0880CE2295D27000C72832 /* Main.storyboard */; };
 		ED0880D22295D27300C72832 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED0880D12295D27300C72832 /* Assets.xcassets */; };
 		ED0880D52295D27300C72832 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED0880D32295D27300C72832 /* LaunchScreen.storyboard */; };
@@ -41,6 +44,7 @@
 		0ECE0BB47BA1BC8D31D7AC92 /* Pods-Networking_Generics_Protocols.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking_Generics_Protocols.release.xcconfig"; path = "Target Support Files/Pods-Networking_Generics_Protocols/Pods-Networking_Generics_Protocols.release.xcconfig"; sourceTree = "<group>"; };
 		4CE92ECA8394E35805D9581C /* Pods-Networking_Generics_Protocols.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking_Generics_Protocols.debug.xcconfig"; path = "Target Support Files/Pods-Networking_Generics_Protocols/Pods-Networking_Generics_Protocols.debug.xcconfig"; sourceTree = "<group>"; };
 		96D2F706B9D45250DB2F6DF0 /* Pods-Networking_Generics_ProtocolsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking_Generics_ProtocolsTests.debug.xcconfig"; path = "Target Support Files/Pods-Networking_Generics_ProtocolsTests/Pods-Networking_Generics_ProtocolsTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A41E53D6229EA07B007FA3B7 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A47E9D4E229D62B900C8C68B /* FirebaseRepositoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRepositoryService.swift; sourceTree = "<group>"; };
 		A47E9D54229DD65900C8C68B /* FirebaseLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseLoginService.swift; sourceTree = "<group>"; };
 		A47E9D56229DD6BA00C8C68B /* FirebaseFirestore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFirestore.swift; sourceTree = "<group>"; };
@@ -48,11 +52,13 @@
 		A4936F89229C39470039B506 /* CharactersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewController.swift; sourceTree = "<group>"; };
 		A4936F8B229C3DF20039B506 /* AddCharacterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCharacterViewController.swift; sourceTree = "<group>"; };
 		A4DE4C212296B4BC002B1D24 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
+		A4E7AD4722A05D090063281C /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
+		A4E7AD4922A05FCD0063281C /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		A4F73F472296D23D00E0DBDC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BA4D926DCCE9B4826FB05A53 /* Pods_Networking_Generics_ProtocolsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Networking_Generics_ProtocolsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED0880C72295D27000C72832 /* Networking_Generics_Protocols.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Networking_Generics_Protocols.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED0880CA2295D27000C72832 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		ED0880CC2295D27000C72832 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		ED0880CC2295D27000C72832 /* RegisterUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserViewController.swift; sourceTree = "<group>"; };
 		ED0880CF2295D27000C72832 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ED0880D12295D27300C72832 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED0880D42295D27300C72832 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -135,7 +141,7 @@
 			children = (
 				A47E9D53229DD64100C8C68B /* Services */,
 				ED0880CA2295D27000C72832 /* AppDelegate.swift */,
-				ED0880CC2295D27000C72832 /* ViewController.swift */,
+				ED0880CC2295D27000C72832 /* RegisterUserViewController.swift */,
 				ED0880CE2295D27000C72832 /* Main.storyboard */,
 				ED0880D12295D27300C72832 /* Assets.xcassets */,
 				ED0880D32295D27300C72832 /* LaunchScreen.storyboard */,
@@ -147,6 +153,9 @@
 				A47E9D4E229D62B900C8C68B /* FirebaseRepositoryService.swift */,
 				A47E9D56229DD6BA00C8C68B /* FirebaseFirestore.swift */,
 				A47E9D58229DD73A00C8C68B /* MarvelAPI.swift */,
+				A41E53D6229EA07B007FA3B7 /* LoginViewController.swift */,
+				A4E7AD4722A05D090063281C /* LoginCoordinator.swift */,
+				A4E7AD4922A05FCD0063281C /* Coordinator.swift */,
 			);
 			path = Networking_Generics_Protocols;
 			sourceTree = "<group>";
@@ -351,10 +360,13 @@
 				A47E9D4F229D62B900C8C68B /* FirebaseRepositoryService.swift in Sources */,
 				A4936F8C229C3DF20039B506 /* AddCharacterViewController.swift in Sources */,
 				A4936F8A229C39470039B506 /* CharactersViewController.swift in Sources */,
-				ED0880CD2295D27000C72832 /* ViewController.swift in Sources */,
+				A4E7AD4822A05D090063281C /* LoginCoordinator.swift in Sources */,
+				ED0880CD2295D27000C72832 /* RegisterUserViewController.swift in Sources */,
 				A4DE4C222296B4BC002B1D24 /* GlobalConstants.swift in Sources */,
 				A47E9D59229DD73A00C8C68B /* MarvelAPI.swift in Sources */,
+				A4E7AD4A22A05FCD0063281C /* Coordinator.swift in Sources */,
 				ED0880CB2295D27000C72832 /* AppDelegate.swift in Sources */,
+				A41E53D7229EA07B007FA3B7 /* LoginViewController.swift in Sources */,
 				A47E9D57229DD6BA00C8C68B /* FirebaseFirestore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

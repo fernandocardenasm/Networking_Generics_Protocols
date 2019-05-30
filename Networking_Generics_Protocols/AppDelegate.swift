@@ -14,16 +14,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    var coordinator: MainCoordinator?
+
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         // [START default_firestore]
         FirebaseApp.configure()
 
+        let navController = UINavigationController()
+        coordinator = MainCoordinator(navigationController: navController)
+        coordinator?.start()
+
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        let db = Firestore.firestore()
-        window?.rootViewController = UINavigationController(rootViewController: CharactersViewController(repositoryService: FirebaseRepositoryServiceImpl(database: Firestore.firestore())))
+        window?.rootViewController = navController
 //        window?.rootViewController = ViewController(firestore: FirebaseFirestore(database: db),
 //                                                    loginService: FirebaseServiceImpl(database: Firestore.firestore()))
 
