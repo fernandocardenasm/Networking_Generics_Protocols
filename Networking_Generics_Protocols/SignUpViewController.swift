@@ -13,17 +13,7 @@ import UIKit
 // TODO: Refacotr this class
 
 class SignUpViewController: UIViewController {
-    let loginService: FirebaseLoginService
     weak var coordinator: LoginCoordinator?
-
-    init(loginService: FirebaseLoginService) {
-        self.loginService = loginService
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
     lazy var usernameTextField: UITextField = {
         let textField = UITextField()

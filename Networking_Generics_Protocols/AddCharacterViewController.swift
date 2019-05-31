@@ -9,23 +9,13 @@
 import UIKit
 
 class AddCharacterViewController: UIViewController {
-    let repositoryService: FirebaseRepositoryService
-
-    init(repositoryService: FirebaseRepositoryService) {
-        self.repositoryService = repositoryService
-
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    weak var coordinator: CharacterCoordinator?
 
     lazy var addCharacterButtonItem: UIBarButtonItem = {
         let item = UIBarButtonItem(title: "Save",
                                    style: .plain,
                                    target: self,
-                                   action: #selector(handleAddCharacter))
+                                   action: #selector(addCharacterTapped))
         return item
     }()
 
@@ -62,8 +52,8 @@ class AddCharacterViewController: UIViewController {
          nameTextField.heightAnchor.constraint(equalToConstant: 50)].forEach { $0.isActive = true }
     }
 
-    @objc func handleAddCharacter(sender: UIBarButtonItem) {
+    @objc func addCharacterTapped(sender: UIBarButtonItem) {
         print("Save Button Tapped")
-        repositoryService.addProduct(name: nameTextField.text ?? "")
+        coordinator?.addCharacter(withName: nameTextField.text ?? "")
     }
 }

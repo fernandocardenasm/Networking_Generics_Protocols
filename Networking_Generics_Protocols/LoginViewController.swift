@@ -12,19 +12,19 @@ class LoginViewController: UIViewController {
     weak var coordinator: LoginCoordinator?
 
     lazy var usernameTextField: UITextField = {
-        let tf = UITextField()
-        tf.backgroundColor = UIColor(red: 70 / 255.0, green: 65 / 255.0, blue: 63 / 255.0, alpha: 1.0)
-        tf.placeholder = "username"
-        tf.textAlignment = .center
-        return tf
+        let textField = UITextField()
+        textField.backgroundColor = UIColor(red: 70 / 255.0, green: 65 / 255.0, blue: 63 / 255.0, alpha: 1.0)
+        textField.placeholder = "username"
+        textField.textAlignment = .center
+        return textField
     }()
 
     lazy var passwordTextField: UITextField = {
-        let tf = UITextField()
-        tf.backgroundColor = UIColor(red: 70 / 255.0, green: 65 / 255.0, blue: 63 / 255.0, alpha: 1.0)
-        tf.placeholder = "password"
-        tf.textAlignment = .center
-        return tf
+        let textField = UITextField()
+        textField.backgroundColor = UIColor(red: 70 / 255.0, green: 65 / 255.0, blue: 63 / 255.0, alpha: 1.0)
+        textField.placeholder = "password"
+        textField.textAlignment = .center
+        return textField
     }()
 
     lazy var loginButton: UIButton = {

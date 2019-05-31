@@ -12,8 +12,6 @@ import RxCocoa
 protocol FirebaseRepositoryService {
     func addProduct(name: String)
 
-    var productsCallback: (([Product]) -> Void)? { get set }
-
     var products: BehaviorRelay<[Product]> { get }
 }
 
@@ -21,9 +19,6 @@ class FirebaseRepositoryServiceImpl<Database: FBFirestore>: FirebaseRepositorySe
 
     let database: Database
     private var productsListener: ListenerRegistration?
-
-    var productsCallback: (([Product]) -> Void)?
-
     var products = BehaviorRelay<[Product]>(value: [])
 
     init(database: Database) {
@@ -53,7 +48,6 @@ class FirebaseRepositoryServiceImpl<Database: FBFirestore>: FirebaseRepositorySe
 
                 self?.products.accept(products)
 
-                self?.productsCallback?(products)
                 querySnapshot.documentChanges.forEach {
                     print("Document Data: \($0.document.data())")
                 }

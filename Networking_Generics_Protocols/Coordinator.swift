@@ -44,8 +44,12 @@ class MainCoordinator: NSObject, Coordinator {
     func didFinishSignUp(loginCoordinator: LoginCoordinator) {
         childDidFinish(loginCoordinator)
 
-        let viewController = CharactersViewController(repositoryService: FirebaseRepositoryServiceImpl(database: Firestore.firestore()))
-        navigationController.pushViewController(viewController, animated: true)
+        let charactersCoordinator = CharacterCoordinator(navigationController: navigationController, repositoryService: FirebaseRepositoryServiceImpl(database: Firestore.firestore()))
+        charactersCoordinator.parentCoordinator = self
+
+        childCoordinators.append(charactersCoordinator)
+
+        charactersCoordinator.start()
     }
 
     private func childDidFinish(_ child: Coordinator?) {
