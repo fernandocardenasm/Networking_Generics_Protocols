@@ -21,7 +21,7 @@
 		A4E7AD4A22A05FCD0063281C /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E7AD4922A05FCD0063281C /* Coordinator.swift */; };
 		A4F73F482296D23D00E0DBDC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A4F73F472296D23D00E0DBDC /* GoogleService-Info.plist */; };
 		ED0880CB2295D27000C72832 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0880CA2295D27000C72832 /* AppDelegate.swift */; };
-		ED0880CD2295D27000C72832 /* RegisterUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0880CC2295D27000C72832 /* RegisterUserViewController.swift */; };
+		ED0880CD2295D27000C72832 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0880CC2295D27000C72832 /* SignUpViewController.swift */; };
 		ED0880D02295D27000C72832 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED0880CE2295D27000C72832 /* Main.storyboard */; };
 		ED0880D22295D27300C72832 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED0880D12295D27300C72832 /* Assets.xcassets */; };
 		ED0880D52295D27300C72832 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED0880D32295D27300C72832 /* LaunchScreen.storyboard */; };
@@ -58,7 +58,7 @@
 		BA4D926DCCE9B4826FB05A53 /* Pods_Networking_Generics_ProtocolsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Networking_Generics_ProtocolsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED0880C72295D27000C72832 /* Networking_Generics_Protocols.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Networking_Generics_Protocols.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED0880CA2295D27000C72832 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		ED0880CC2295D27000C72832 /* RegisterUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserViewController.swift; sourceTree = "<group>"; };
+		ED0880CC2295D27000C72832 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		ED0880CF2295D27000C72832 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ED0880D12295D27300C72832 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED0880D42295D27300C72832 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -141,7 +141,7 @@
 			children = (
 				A47E9D53229DD64100C8C68B /* Services */,
 				ED0880CA2295D27000C72832 /* AppDelegate.swift */,
-				ED0880CC2295D27000C72832 /* RegisterUserViewController.swift */,
+				ED0880CC2295D27000C72832 /* SignUpViewController.swift */,
 				ED0880CE2295D27000C72832 /* Main.storyboard */,
 				ED0880D12295D27300C72832 /* Assets.xcassets */,
 				ED0880D32295D27300C72832 /* LaunchScreen.storyboard */,
@@ -361,7 +361,7 @@
 				A4936F8C229C3DF20039B506 /* AddCharacterViewController.swift in Sources */,
 				A4936F8A229C39470039B506 /* CharactersViewController.swift in Sources */,
 				A4E7AD4822A05D090063281C /* LoginCoordinator.swift in Sources */,
-				ED0880CD2295D27000C72832 /* RegisterUserViewController.swift in Sources */,
+				ED0880CD2295D27000C72832 /* SignUpViewController.swift in Sources */,
 				A4DE4C222296B4BC002B1D24 /* GlobalConstants.swift in Sources */,
 				A47E9D59229DD73A00C8C68B /* MarvelAPI.swift in Sources */,
 				A4E7AD4A22A05FCD0063281C /* Coordinator.swift in Sources */,

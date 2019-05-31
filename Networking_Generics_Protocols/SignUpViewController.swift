@@ -12,9 +12,9 @@ import UIKit
 
 // TODO: Refacotr this class
 
-class RegisterUserViewController: UIViewController {
+class SignUpViewController: UIViewController {
     let loginService: FirebaseLoginService
-    weak var coordinator: Coordinator?
+    weak var coordinator: LoginCoordinator?
 
     init(loginService: FirebaseLoginService) {
         self.loginService = loginService
@@ -41,12 +41,12 @@ class RegisterUserViewController: UIViewController {
         return textField
     }()
 
-    lazy var registerButton: UIButton = {
+    lazy var signUpButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .black
-        button.setTitle("Register", for: .normal)
+        button.setTitle("Sign up", for: .normal)
 
-        button.addTarget(self, action: #selector(handleRegisterUser), for: .touchUpInside)
+        button.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
         return button
     }()
 
@@ -79,7 +79,7 @@ class RegisterUserViewController: UIViewController {
 
         setupUsernameTextField()
         setupPasswordTextField()
-        setupRegisterButton()
+        setupSignUpButton()
     }
 
     private func setupUsernameTextField() {
@@ -114,19 +114,20 @@ class RegisterUserViewController: UIViewController {
         passwordTextField.leftView = imageView
     }
 
-    func setupRegisterButton() {
-        view.addSubview(registerButton)
+    private func setupSignUpButton() {
+        view.addSubview(signUpButton)
 
-        registerButton.translatesAutoresizingMaskIntoConstraints = false
+        signUpButton.translatesAutoresizingMaskIntoConstraints = false
 
-        [registerButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
-         registerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-         registerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
-         registerButton.heightAnchor.constraint(equalToConstant: 50)].forEach { $0.isActive = true }
+        [signUpButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
+         signUpButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+         signUpButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+         signUpButton.heightAnchor.constraint(equalToConstant: 50)].forEach { $0.isActive = true }
     }
 
-    @objc func handleRegisterUser(sender: UIButton) {
-        loginService.createUser(username: usernameTextField.text ?? "", password: passwordTextField.text ?? "")
+    @objc func signUpTapped(sender: UIButton) {
+        coordinator?.signUp(withUsername: usernameTextField.text ?? "",
+                            password: passwordTextField.text ?? "")
     }
 }
 

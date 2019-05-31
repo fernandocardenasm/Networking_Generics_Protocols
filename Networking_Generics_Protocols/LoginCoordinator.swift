@@ -10,29 +10,44 @@ import UIKit
 import Firebase
 
 class LoginCoordinator: Coordinator {
+    weak var parentCoordinator: MainCoordinator?
     var childCoordinators: [Coordinator] = []
+    let navigationController: UINavigationController
+    let loginService: FirebaseLoginService
 
-    var navigationController: UINavigationController
 
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController,
+         loginService: FirebaseLoginService) {
         self.navigationController = navigationController
+        self.loginService = loginService
     }
 
     func start() {
-        login()
+        startLogin()
     }
 
-    func login() {
-        let viewController = LoginViewController(loginService: FirebaseLoginServiceImpl(database: Firestore.firestore()))
+    func startLogin() {
+        let viewController = LoginViewController()
         viewController.coordinator = self
 
         navigationController.pushViewController(viewController, animated: true)
     }
 
-    func register() {
-        let viewController = RegisterUserViewController(loginService: FirebaseLoginServiceImpl(database: Firestore.firestore()))
+    func login(withUsername: String, password: String) {
+        // TODO: Login User
+    }
+
+    func createAccount() {
+        let viewController = SignUpViewController(loginService: FirebaseLoginServiceImpl(database: Firestore.firestore()))
         viewController.coordinator = self
 
         navigationController.pushViewController(viewController, animated: true)
+    }
+
+    func signUp(withUsername username: String, password: String) {
+        // Do something with the sign up.
+        loginService.createUser(username: username, password: password)
+        // If successfull, inform parent, otherwise maybe try again.
+        parentCoordinator?.didFinishSignUp(loginCoordinator: self)
     }
 }

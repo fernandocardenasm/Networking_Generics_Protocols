@@ -9,18 +9,7 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-    let loginService: FirebaseLoginService
-
-    weak var coordinator: Coordinator?
-
-    init(loginService: FirebaseLoginService) {
-        self.loginService = loginService
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    weak var coordinator: LoginCoordinator?
 
     lazy var usernameTextField: UITextField = {
         let tf = UITextField()
@@ -41,9 +30,18 @@ class LoginViewController: UIViewController {
     lazy var loginButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .black
-        button.setTitle("Register", for: .normal)
+        button.setTitle("Login", for: .normal)
 
-        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
+        button.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
+        return button
+    }()
+
+    lazy var createAccountButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .black
+        button.setTitle("Create new Account", for: .normal)
+
+        button.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
         return button
     }()
 
@@ -59,6 +57,7 @@ class LoginViewController: UIViewController {
         setupUsernameTextField()
         setupPasswordTextField()
         setupLoginButton()
+        setupCreateAccountButton()
     }
 
     private func setupUsernameTextField() {
@@ -104,7 +103,22 @@ class LoginViewController: UIViewController {
          loginButton.heightAnchor.constraint(equalToConstant: 50)].forEach { $0.isActive = true }
     }
 
-    @objc func handleLogin(sender: UIButton) {
-        print("Handle Login")
+    func setupCreateAccountButton() {
+        view.addSubview(createAccountButton)
+
+        createAccountButton.translatesAutoresizingMaskIntoConstraints = false
+
+        [createAccountButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 30),
+         createAccountButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+         createAccountButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+         createAccountButton.heightAnchor.constraint(equalToConstant: 50)].forEach { $0.isActive = true }
+    }
+
+    @objc func loginTapped(sender: UIButton) {
+        coordinator?.login(withUsername: "", password: "")
+    }
+
+    @objc func signUpTapped(sender: UIButton) {
+        coordinator?.createAccount()
     }
 }

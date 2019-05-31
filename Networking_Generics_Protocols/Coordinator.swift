@@ -11,25 +11,49 @@ import UIKit
 
 protocol Coordinator: AnyObject {
     var childCoordinators: [Coordinator] { get set }
-    var navigationController: UINavigationController { get set }
-
+    var navigationController: UINavigationController { get }
     func start()
 }
 
-class MainCoordinator: Coordinator {
+class MainCoordinator: NSObject, Coordinator {
     var childCoordinators: [Coordinator] = []
 
-    var navigationController: UINavigationController
+    let navigationController: UINavigationController
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
 
     func start() {
-        // TODO If user is logggedin, then use the loginCoordinator, otherwise show another controller
-        let viewController = LoginViewController(loginService: FirebaseLoginServiceImpl(database: Firestore.firestore()))
-        viewController.coordinator = self
+        // TODO If user is logggedin, then show the logged In ViewController, otherwise the not logged In.
+        let loggedIn = false
+        if loggedIn {
+            // Show something
+        }
+        else {
+            let loginCoordinator = LoginCoordinator(navigationController: navigationController,
+                                                    loginService: FirebaseLoginServiceImpl(database: Firestore.firestore()))
+            loginCoordinator.parentCoordinator = self
 
+            childCoordinators.append(loginCoordinator)
+
+            loginCoordinator.start()
+        }
+    }
+
+    func didFinishSignUp(loginCoordinator: LoginCoordinator) {
+        childDidFinish(loginCoordinator)
+
+        let viewController = CharactersViewController(repositoryService: FirebaseRepositoryServiceImpl(database: Firestore.firestore()))
         navigationController.pushViewController(viewController, animated: true)
+    }
+
+    private func childDidFinish(_ child: Coordinator?) {
+        for (index, coordinator) in childCoordinators.enumerated() {
+            if coordinator === child {
+                childCoordinators.remove(at: index)
+                break
+            }
+        }
     }
 }
