@@ -43,7 +43,7 @@ class MainCoordinator: NSObject, Coordinator {
 
     func didFinishSignUp(loginCoordinator: LoginCoordinator) {
         childDidFinish(loginCoordinator)
-
+        
         let charactersCoordinator = CharacterCoordinator(navigationController: navigationController, repositoryService: FirebaseRepositoryServiceImpl(database: Firestore.firestore()))
         charactersCoordinator.parentCoordinator = self
 

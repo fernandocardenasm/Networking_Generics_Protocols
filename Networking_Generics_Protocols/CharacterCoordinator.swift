@@ -33,7 +33,7 @@ class CharacterCoordinator: Coordinator {
     }()
 
     func start() {
-        navigationController.pushViewController(charactersViewController, animated: true)
+        navigationController.setViewControllers([charactersViewController], animated: true)
     }
 
     func startAddCharacter() {

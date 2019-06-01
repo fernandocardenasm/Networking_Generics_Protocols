@@ -21,6 +21,10 @@ class LoginCoordinator: Coordinator {
         self.loginService = loginService
     }
 
+    deinit {
+        print("Deinit of LoginCoordinator")
+    }
+
     lazy var loginViewController: LoginViewController = {
         let viewController = LoginViewController()
         viewController.coordinator = self
