@@ -33,14 +33,6 @@ class CharactersViewController: UIViewController {
         return collectionView
     }()
 
-    lazy var addCharacterButtonItem: UIBarButtonItem = {
-        let item = UIBarButtonItem(title: "Add",
-                                   style: .plain,
-                                   target: self,
-                                   action: #selector(addCharacterTapped))
-        return item
-    }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -50,8 +42,6 @@ class CharactersViewController: UIViewController {
 
     private func setupUI() {
         view.backgroundColor = UIColor(red: 43 / 255.0, green: 43 / 255.0, blue: 45 / 255.0, alpha: 1.0)
-
-        navigationItem.rightBarButtonItem = addCharacterButtonItem
 
         setupCollectionView()
     }
@@ -90,11 +80,6 @@ class CharactersViewController: UIViewController {
             self?.collectionView.reloadData()
         }).disposed(by: disposeBag)
     }
-
-    @objc func addCharacterTapped(sender: UIBarButtonItem) {
-        print("Button Tapped")
-        coordinator?.startAddCharacter()
-    }
 }
 
 extension CharactersViewController: UICollectionViewDataSource {
@@ -103,8 +88,10 @@ extension CharactersViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellId,
-                                                      for: indexPath) as! CharacterCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellId,
+                                                            for: indexPath) as? CharacterCollectionViewCell else {
+            return CharacterCollectionViewCell()
+        }
 
         cell.nameLabel.text = characters.value[indexPath.item].id
         return cell

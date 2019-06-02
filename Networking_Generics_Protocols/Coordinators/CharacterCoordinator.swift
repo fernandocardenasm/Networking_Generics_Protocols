@@ -32,16 +32,39 @@ class CharacterCoordinator: Coordinator {
         return viewController
     }()
 
+    // Button Items
+    lazy var addCharacterButtonItem: UIBarButtonItem = {
+        let item = UIBarButtonItem(title: "Add",
+                                   style: .plain,
+                                   target: self,
+                                   action: #selector(addCharacterTapped))
+        return item
+    }()
+    
+    lazy var saveCharacterButtonItem: UIBarButtonItem = {
+        let item = UIBarButtonItem(title: "Save",
+                                   style: .plain,
+                                   target: self,
+                                   action: #selector(saveCharacterTapped))
+        return item
+    }()
+
     func start() {
         navigationController.setViewControllers([charactersViewController], animated: true)
     }
+}
 
-    func startAddCharacter() {
+// MARK: - ButtonItems
+
+extension CharacterCoordinator {
+    @objc func addCharacterTapped(sender: UIBarButtonItem) {
+        navigationController.navigationItem.rightBarButtonItem = saveCharacterButtonItem
         navigationController.pushViewController(addCharacterViewController, animated: true)
     }
 
-    func addCharacter(withName name: String) {
-        repositoryService.addProduct(name: name)
+    @objc func saveCharacterTapped(sender: UIBarButtonItem) {
+        print("Save Button Tapped")
+        repositoryService.addProduct(name: addCharacterViewController.nameTextField.text ?? "")
         navigationController.popViewController(animated: true)
     }
 }

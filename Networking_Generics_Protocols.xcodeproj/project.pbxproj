@@ -114,8 +114,39 @@
 			isa = PBXGroup;
 			children = (
 				A47E9D54229DD65900C8C68B /* FirebaseLoginService.swift */,
+				A47E9D4E229D62B900C8C68B /* FirebaseRepositoryService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		A4E7AD4F22A3B36A0063281C /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				A4E7AD4922A05FCD0063281C /* Coordinator.swift */,
+				A4E7AD4722A05D090063281C /* LoginCoordinator.swift */,
+				A4E7AD4B22A19FF40063281C /* CharacterCoordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		A4E7AD5022A3B3730063281C /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A41E53D6229EA07B007FA3B7 /* LoginViewController.swift */,
+				ED0880CC2295D27000C72832 /* SignUpViewController.swift */,
+				A4936F89229C39470039B506 /* CharactersViewController.swift */,
+				A4936F8B229C3DF20039B506 /* AddCharacterViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		A4E7AD5122A3B5620063281C /* API */ = {
+			isa = PBXGroup;
+			children = (
+				A47E9D56229DD6BA00C8C68B /* FirebaseFirestore.swift */,
+				A47E9D58229DD73A00C8C68B /* MarvelAPI.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 		ED0880BE2295D27000C72832 = {
@@ -141,24 +172,17 @@
 		ED0880C92295D27000C72832 /* Networking_Generics_Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				A4E7AD5122A3B5620063281C /* API */,
+				A4E7AD5022A3B3730063281C /* ViewControllers */,
+				A4E7AD4F22A3B36A0063281C /* Coordinators */,
 				A47E9D53229DD64100C8C68B /* Services */,
 				ED0880CA2295D27000C72832 /* AppDelegate.swift */,
-				ED0880CC2295D27000C72832 /* SignUpViewController.swift */,
 				ED0880CE2295D27000C72832 /* Main.storyboard */,
 				ED0880D12295D27300C72832 /* Assets.xcassets */,
 				ED0880D32295D27300C72832 /* LaunchScreen.storyboard */,
 				ED0880D62295D27300C72832 /* Info.plist */,
 				A4F73F472296D23D00E0DBDC /* GoogleService-Info.plist */,
 				A4DE4C212296B4BC002B1D24 /* GlobalConstants.swift */,
-				A4936F89229C39470039B506 /* CharactersViewController.swift */,
-				A4936F8B229C3DF20039B506 /* AddCharacterViewController.swift */,
-				A47E9D4E229D62B900C8C68B /* FirebaseRepositoryService.swift */,
-				A47E9D56229DD6BA00C8C68B /* FirebaseFirestore.swift */,
-				A47E9D58229DD73A00C8C68B /* MarvelAPI.swift */,
-				A41E53D6229EA07B007FA3B7 /* LoginViewController.swift */,
-				A4E7AD4722A05D090063281C /* LoginCoordinator.swift */,
-				A4E7AD4922A05FCD0063281C /* Coordinator.swift */,
-				A4E7AD4B22A19FF40063281C /* CharacterCoordinator.swift */,
 			);
 			path = Networking_Generics_Protocols;
 			sourceTree = "<group>";
