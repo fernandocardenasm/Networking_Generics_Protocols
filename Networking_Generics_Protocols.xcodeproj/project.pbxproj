@@ -146,8 +146,8 @@
 			isa = PBXGroup;
 			children = (
 				A47E9D56229DD6BA00C8C68B /* FirebaseFirestore.swift */,
-				A47E9D58229DD73A00C8C68B /* MarvelAPI.swift */,
 				A4E7AD5222A3BCE60063281C /* FirebaseAuthentication.swift */,
+				A47E9D58229DD73A00C8C68B /* MarvelAPI.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";

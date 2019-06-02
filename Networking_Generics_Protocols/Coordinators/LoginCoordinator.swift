@@ -43,12 +43,26 @@ class LoginCoordinator: Coordinator {
         navigationController.pushViewController(loginViewController, animated: true)
     }
 
-    func login(withUsername: String, password: String) {
-        // TODO: Login User
-    }
-
     func startCreateAccount() {
         navigationController.pushViewController(signUpViewController, animated: true)
+    }
+
+    func signIn(withEmail email: String, password: String) {
+        loginService.signIn(withEmail: email, password: password) { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+            switch result {
+            case .success(let documentId):
+                print("Sign In Success: \(documentId)")
+                strongSelf.parentCoordinator?.didFinishSignIn(loginCoordinator: strongSelf)
+            case .failure(let error):
+                print("Error Sign In: \(error.localizedDescription)")
+                let alert = strongSelf.makeAlert(title: "Sign In",
+                                                 message: "An error occurs while signging in. Please try it again.")
+                strongSelf.loginViewController.present(alert, animated: true)
+            }
+        }
     }
 
     func signUp(withEmail email: String, password: String) {
@@ -60,11 +74,11 @@ class LoginCoordinator: Coordinator {
             }
             switch result {
             case .success(let documentId):
-                print("Success: \(documentId)")
+                print("Sign Up Success: \(documentId)")
                 strongSelf.parentCoordinator?.didFinishSignUp(loginCoordinator: strongSelf)
             case .failure(let error):
-                print("Error: \(error.localizedDescription)")
-                let alert = strongSelf.makeAlert(title: "Title",
+                print("Error Sign Up: \(error.localizedDescription)")
+                let alert = strongSelf.makeAlert(title: "Sign Up",
                                                  message: "An error occurs while creating the account. Please try it again.")
                 strongSelf.signUpViewController.present(alert, animated: true)
             }

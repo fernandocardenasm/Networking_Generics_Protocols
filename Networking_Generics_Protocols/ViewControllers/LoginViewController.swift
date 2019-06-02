@@ -115,7 +115,8 @@ class LoginViewController: UIViewController {
     }
 
     @objc func loginTapped(sender: UIButton) {
-        coordinator?.login(withUsername: "", password: "")
+        coordinator?.signIn(withEmail: emailTextField.text?.lowercased() ?? "",
+                            password: passwordTextField.text ?? "")
     }
 
     @objc func signUpTapped(sender: UIButton) {

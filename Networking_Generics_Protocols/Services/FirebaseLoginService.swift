@@ -8,6 +8,8 @@
 
 protocol FirebaseLoginService {
     func createUser(withEmail: String, password: String, completion: @escaping (Result<String, Error>) -> Void)
+
+    func signIn(withEmail: String, password: String, completion: @escaping (Result<String, Error>) -> Void)
 }
 
 class FirebaseLoginServiceImpl<Authentication: FBAuth>: FirebaseLoginService {
@@ -23,10 +25,24 @@ class FirebaseLoginServiceImpl<Authentication: FBAuth>: FirebaseLoginService {
                 completion(.failure(error))
             }
             else if let dataResult = authDataResult {
-                completion(.success("Result"))
+                completion(.success("Result create user"))
             }
             else {
                 print("This is an unknown error for createUser")
+            }
+        }
+    }
+
+    func signIn(withEmail email: String, password: String, completion: @escaping (Result<String, Error>) -> Void) {
+        auth.signIn(withEmail: email, password: password) { (authDataResult, error) in
+            if let error = error {
+                completion(.failure(error))
+            }
+            else if let dataResult = authDataResult {
+                completion(.success("Result sign in user"))
+            }
+            else {
+                print("This is an unknown error for sign in")
             }
         }
     }

@@ -115,7 +115,7 @@ class SignUpViewController: UIViewController {
     }
 
     @objc func signUpTapped(sender: UIButton) {
-        coordinator?.signUp(withEmail: emailTextField.text ?? "",
+        coordinator?.signUp(withEmail: emailTextField.text?.lowercased() ?? "",
                             password: passwordTextField.text ?? "")
     }
 }

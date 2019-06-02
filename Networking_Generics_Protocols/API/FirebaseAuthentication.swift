@@ -11,10 +11,13 @@ import FirebaseAuth
 protocol FBAuth {
     associatedtype EndUser: FBUser
     associatedtype DataResult: FBAuthDataResult
+    typealias DataResultCallback = (DataResult?, Error?) -> Void
 
     var currentUser: EndUser? { get }
 
-    func createUser(withEmail email: String, password: String, completion: ((DataResult?, Error?) -> Void)?)
+    func createUser(withEmail email: String, password: String, completion: DataResultCallback?)
+
+    func signIn(withEmail email: String, password: String, completion: DataResultCallback?)
 }
 
 extension Auth: FBAuth {}
