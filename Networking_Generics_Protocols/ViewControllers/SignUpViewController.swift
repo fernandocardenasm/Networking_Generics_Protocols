@@ -7,7 +7,6 @@
 //
 
 import CryptoSwift
-import Firebase
 import UIKit
 
 // TODO: Refacotr this class
@@ -15,10 +14,10 @@ import UIKit
 class SignUpViewController: UIViewController {
     weak var coordinator: LoginCoordinator?
 
-    lazy var usernameTextField: UITextField = {
+    lazy var emailTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = UIColor(red: 70 / 255.0, green: 65 / 255.0, blue: 63 / 255.0, alpha: 1.0)
-        textField.placeholder = "username"
+        textField.placeholder = "email"
         textField.textAlignment = .center
         return textField
     }()
@@ -73,19 +72,19 @@ class SignUpViewController: UIViewController {
     }
 
     private func setupUsernameTextField() {
-        view.addSubview(usernameTextField)
+        view.addSubview(emailTextField)
 
-        usernameTextField.translatesAutoresizingMaskIntoConstraints = false
+        emailTextField.translatesAutoresizingMaskIntoConstraints = false
 
-        [usernameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
-         usernameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-         usernameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
-         usernameTextField.heightAnchor.constraint(equalToConstant: 50)].forEach { $0.isActive = true }
+        [emailTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
+         emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+         emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+         emailTextField.heightAnchor.constraint(equalToConstant: 50)].forEach { $0.isActive = true }
 
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        imageView.image = UIImage(named: "login_username")
-        usernameTextField.leftViewMode = .always
-        usernameTextField.leftView = imageView
+        imageView.image = UIImage(named: "login_email")
+        emailTextField.leftViewMode = .always
+        emailTextField.leftView = imageView
     }
 
     private func setupPasswordTextField() {
@@ -93,7 +92,7 @@ class SignUpViewController: UIViewController {
 
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
 
-        [passwordTextField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: 20),
+        [passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 20),
          passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
          passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
          passwordTextField.heightAnchor.constraint(equalToConstant: 50)].forEach { $0.isActive = true }
@@ -116,7 +115,7 @@ class SignUpViewController: UIViewController {
     }
 
     @objc func signUpTapped(sender: UIButton) {
-        coordinator?.signUp(withUsername: usernameTextField.text ?? "",
+        coordinator?.signUp(withEmail: emailTextField.text ?? "",
                             password: passwordTextField.text ?? "")
     }
 }

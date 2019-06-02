@@ -6,32 +6,27 @@
 //  Copyright © 2019 Fernando. All rights reserved.
 //
 
-import Firebase
-
 protocol FirebaseLoginService {
-    func createUser(withUsername: String, password: String, completion: @escaping (Result<String, Error>) -> Void)
+    func createUser(withEmail: String, password: String, completion: @escaping (Result<String, Error>) -> Void)
 }
 
-class FirebaseLoginServiceImpl<Database: FBFirestore>: FirebaseLoginService {
-    let database: Database
+class FirebaseLoginServiceImpl<Authentication: FBAuth>: FirebaseLoginService {
+    let auth: Authentication
 
-    init(database: Database) {
-        self.database = database
+    init(auth: Authentication) {
+        self.auth = auth
     }
 
-    func createUser(withUsername username: String, password: String, completion: @escaping (Result<String, Error>) -> Void) {
-        var ref: FBDocumentReference?
-        //        let db = Firestore.firestore()
-        ref = database.collection("users").addDocument(data: [
-            "username": username,
-            "password": password
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-                completion(.failure(err))
-            } else {
-                print("Document added with ID: \(ref?.documentID ?? "Emtpy Id")")
-                completion(.success(ref?.documentID ?? "No Id"))
+    func createUser(withEmail email: String, password: String, completion: @escaping (Result<String, Error>) -> Void) {
+        auth.createUser(withEmail: email, password: password) { (authDataResult, error) in
+            if let error = error {
+                completion(.failure(error))
+            }
+            else if let dataResult = authDataResult {
+                completion(.success("Result"))
+            }
+            else {
+                print("This is an unknown error for createUser")
             }
         }
     }

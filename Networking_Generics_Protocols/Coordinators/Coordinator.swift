@@ -6,7 +6,8 @@
 //  Copyright © 2019 Fernando. All rights reserved.
 //
 
-import Firebase
+import FirebaseFirestore
+import FirebaseAuth
 import UIKit
 
 protocol Coordinator: AnyObject {
@@ -31,7 +32,7 @@ class MainCoordinator: NSObject, Coordinator {
         }
         else {
             let loginCoordinator = LoginCoordinator(navigationController: navigationController,
-                                                    loginService: FirebaseLoginServiceImpl(database: Firestore.firestore()))
+                                                    loginService: FirebaseLoginServiceImpl(auth: Auth.auth()))
             loginCoordinator.parentCoordinator = self
 
             childCoordinators.append(loginCoordinator)

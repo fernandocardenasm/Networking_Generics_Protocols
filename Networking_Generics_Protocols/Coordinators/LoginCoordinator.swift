@@ -47,13 +47,13 @@ class LoginCoordinator: Coordinator {
         // TODO: Login User
     }
 
-    func createAccount() {
+    func startCreateAccount() {
         navigationController.pushViewController(signUpViewController, animated: true)
     }
 
-    func signUp(withUsername username: String, password: String) {
+    func signUp(withEmail email: String, password: String) {
         // Do something with the sign up.
-        loginService.createUser(withUsername: username,
+        loginService.createUser(withEmail: email,
                                 password: password) { [weak self] result in
             guard let strongSelf = self else {
                 return

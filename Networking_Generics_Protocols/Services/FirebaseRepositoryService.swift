@@ -5,8 +5,8 @@
 //  Created by Fernando Cardenas on 28.05.19.
 //  Copyright © 2019 Fernando. All rights reserved.
 //
-
-import Firebase
+// import FirebaseFirestore to get access tot the protocol ListenerRegistration
+import FirebaseFirestore
 import RxCocoa
 
 protocol FirebaseRepositoryService {
@@ -54,6 +54,7 @@ class FirebaseRepositoryServiceImpl<Database: FBFirestore>: FirebaseRepositorySe
                 print("--------------")
                 print("Documents: \(querySnapshot.documents.count)")
             }
+            // TO-DO: Add case for else
         })
     }
 

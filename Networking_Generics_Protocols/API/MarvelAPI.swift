@@ -63,6 +63,7 @@ class MarvelAPI<S: Session> {
 }
 
 extension MarvelAPI {
+    // TODO: Maybe this should be an extra struct with static functions.
     func convertData<R: APIRequest>(_ data: Data, for request: R) -> R.Response? {
         guard let marvelResponse = try? JSONDecoder().decode(MarvelResponse<R.Response>.self,
                                                              from: data),

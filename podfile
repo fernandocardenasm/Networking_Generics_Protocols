@@ -5,6 +5,7 @@ target 'Networking_Generics_Protocols' do
   pod 'CryptoSwift', '~> 1.0'
   pod 'Firebase/Core'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Auth'
   pod 'RxSwift', '~> 5'
   pod 'RxCocoa', '~> 5'
 

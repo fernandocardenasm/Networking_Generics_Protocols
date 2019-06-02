@@ -6,15 +6,16 @@
 //  Copyright © 2019 Fernando. All rights reserved.
 //
 
-import Firebase
+import FirebaseFirestore
 
-class FirebaseFirestore<F: FBFirestore> {
-    let database: F
-
-    init(database: F) {
-        self.database = database
-    }
-}
+//Example how the a class that implements the database should look like
+//class FirebaseFirestore<F: FBFirestore> {
+//    let database: F
+//
+//    init(database: F) {
+//        self.database = database
+//    }
+//}
 
 protocol FBFirestore {
     // The CollectionReference is a subclass of Query. For that reason, in order to abstract it as "CollectionRef", then "CollectionRef" conforms to two protrocols.
