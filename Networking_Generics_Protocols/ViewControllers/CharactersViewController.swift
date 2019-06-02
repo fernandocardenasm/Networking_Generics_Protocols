@@ -7,15 +7,17 @@
 //
 
 import Firebase
+import RxCocoa
 import RxSwift
 import UIKit
 
 class CharactersViewController: UIViewController {
-    let repositoryService: FirebaseRepositoryService
+    let characters: BehaviorRelay<[Product]>
     let disposeBag = DisposeBag()
+    weak var coordinator: CharacterCoordinator?
 
-    init(repositoryService: FirebaseRepositoryService) {
-        self.repositoryService = repositoryService
+    init(characters: BehaviorRelay<[Product]>) {
+        self.characters = characters
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -31,14 +33,6 @@ class CharactersViewController: UIViewController {
         return collectionView
     }()
 
-    lazy var addCharacterButtonItem: UIBarButtonItem = {
-        let item = UIBarButtonItem(title: "Add",
-                                   style: .plain,
-                                   target: self,
-                                   action: #selector(handleAddCharacter))
-        return item
-    }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,14 +40,8 @@ class CharactersViewController: UIViewController {
         setupBindings()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
     private func setupUI() {
         view.backgroundColor = UIColor(red: 43 / 255.0, green: 43 / 255.0, blue: 45 / 255.0, alpha: 1.0)
-
-        navigationItem.rightBarButtonItem = addCharacterButtonItem
 
         setupCollectionView()
     }
@@ -88,28 +76,24 @@ class CharactersViewController: UIViewController {
     }
 
     func setupBindings() {
-        repositoryService.products.subscribe(onNext: { _ in
-            self.collectionView.reloadData()
+        characters.subscribe(onNext: { [weak self] _ in
+            self?.collectionView.reloadData()
         }).disposed(by: disposeBag)
-    }
-
-    @objc func handleAddCharacter(sender: UIBarButtonItem) {
-        print("Button Tapped")
-        let viewController = AddCharacterViewController(repositoryService: repositoryService)
-        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
 extension CharactersViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return repositoryService.products.value.count
+        return characters.value.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellId,
-                                                                for: indexPath) as! CharacterCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellId,
+                                                            for: indexPath) as? CharacterCollectionViewCell else {
+            return CharacterCollectionViewCell()
+        }
 
-        cell.nameLabel.text = repositoryService.products.value[indexPath.item].id
+        cell.nameLabel.text = characters.value[indexPath.item].id
         return cell
     }
 }

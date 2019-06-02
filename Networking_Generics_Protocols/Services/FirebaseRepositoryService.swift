@@ -11,19 +11,13 @@ import RxCocoa
 
 protocol FirebaseRepositoryService {
     func addProduct(name: String)
-
-    var productsCallback: (([Product]) -> Void)? { get set }
-
+    
     var products: BehaviorRelay<[Product]> { get }
 }
 
 class FirebaseRepositoryServiceImpl<Database: FBFirestore>: FirebaseRepositoryService {
-
     let database: Database
     private var productsListener: ListenerRegistration?
-
-    var productsCallback: (([Product]) -> Void)?
-
     var products = BehaviorRelay<[Product]>(value: [])
 
     init(database: Database) {
@@ -40,7 +34,7 @@ class FirebaseRepositoryServiceImpl<Database: FBFirestore>: FirebaseRepositorySe
         guard productsListener == nil else {
             return
         }
-        productsListener = database.collection("products").addSnapshotListener({ [weak self] (querySnapshot, error) in
+        productsListener = database.collection("products").addSnapshotListener({ [weak self] querySnapshot, error in
             if let error = error {
                 print("Error: \(error)")
             } else if let querySnapshot = querySnapshot {
@@ -53,7 +47,6 @@ class FirebaseRepositoryServiceImpl<Database: FBFirestore>: FirebaseRepositorySe
 
                 self?.products.accept(products)
 
-                self?.productsCallback?(products)
                 querySnapshot.documentChanges.forEach {
                     print("Document Data: \($0.document.data())")
                 }
@@ -65,7 +58,7 @@ class FirebaseRepositoryServiceImpl<Database: FBFirestore>: FirebaseRepositorySe
     }
 
     func addProduct(name: String) {
-        var ref: FBDocumentReference? = nil
+        var ref: FBDocumentReference?
         //        let db = Firestore.firestore()
         ref = database.collection("products").addDocument(data: [
             "name": name

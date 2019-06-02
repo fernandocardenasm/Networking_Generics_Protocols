@@ -60,7 +60,9 @@ class MarvelAPI<S: Session> {
         }
         task.resume()
     }
+}
 
+extension MarvelAPI {
     func convertData<R: APIRequest>(_ data: Data, for request: R) -> R.Response? {
         guard let marvelResponse = try? JSONDecoder().decode(MarvelResponse<R.Response>.self,
                                                              from: data),

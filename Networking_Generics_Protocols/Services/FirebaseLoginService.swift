@@ -9,19 +9,18 @@
 import Firebase
 
 protocol FirebaseLoginService {
-    func createUser(username: String, password: String)
+    func createUser(withUsername: String, password: String, completion: @escaping (Result<String, Error>) -> Void)
 }
 
 class FirebaseLoginServiceImpl<Database: FBFirestore>: FirebaseLoginService {
-
     let database: Database
 
     init(database: Database) {
         self.database = database
     }
 
-    func createUser(username: String, password: String) {
-        var ref: FBDocumentReference? = nil
+    func createUser(withUsername username: String, password: String, completion: @escaping (Result<String, Error>) -> Void) {
+        var ref: FBDocumentReference?
         //        let db = Firestore.firestore()
         ref = database.collection("users").addDocument(data: [
             "username": username,
@@ -29,8 +28,10 @@ class FirebaseLoginServiceImpl<Database: FBFirestore>: FirebaseLoginService {
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
+                completion(.failure(err))
             } else {
                 print("Document added with ID: \(ref?.documentID ?? "Emtpy Id")")
+                completion(.success(ref?.documentID ?? "No Id"))
             }
         }
     }
