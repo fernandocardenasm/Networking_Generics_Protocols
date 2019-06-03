@@ -6,7 +6,8 @@
 //  Copyright © 2019 Fernando. All rights reserved.
 //
 
-import Firebase
+import FirebaseFirestore
+import FirebaseAuth
 import UIKit
 
 protocol Coordinator: AnyObject {
@@ -15,7 +16,7 @@ protocol Coordinator: AnyObject {
     func start()
 }
 
-class MainCoordinator: NSObject, Coordinator {
+class MainCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     let navigationController: UINavigationController
 
@@ -31,7 +32,7 @@ class MainCoordinator: NSObject, Coordinator {
         }
         else {
             let loginCoordinator = LoginCoordinator(navigationController: navigationController,
-                                                    loginService: FirebaseLoginServiceImpl(database: Firestore.firestore()))
+                                                    loginService: FirebaseLoginServiceImpl(auth: Auth.auth()))
             loginCoordinator.parentCoordinator = self
 
             childCoordinators.append(loginCoordinator)
@@ -40,9 +41,19 @@ class MainCoordinator: NSObject, Coordinator {
         }
     }
 
+    func didFinishSignIn(loginCoordinator: LoginCoordinator) {
+        childDidFinish(loginCoordinator)
+
+        startCharacterCoordinator()
+    }
+
     func didFinishSignUp(loginCoordinator: LoginCoordinator) {
         childDidFinish(loginCoordinator)
 
+        startCharacterCoordinator()
+    }
+
+    func startCharacterCoordinator() {
         let charactersCoordinator = CharacterCoordinator(navigationController: navigationController, repositoryService: FirebaseRepositoryServiceImpl(database: Firestore.firestore()))
         charactersCoordinator.parentCoordinator = self
 
@@ -50,7 +61,9 @@ class MainCoordinator: NSObject, Coordinator {
 
         charactersCoordinator.start()
     }
+}
 
+extension MainCoordinator {
     private func childDidFinish(_ child: Coordinator?) {
         for (index, coordinator) in childCoordinators.enumerated() {
             if coordinator === child {

@@ -43,34 +43,59 @@ class LoginCoordinator: Coordinator {
         navigationController.pushViewController(loginViewController, animated: true)
     }
 
-    func login(withUsername: String, password: String) {
-        // TODO: Login User
-    }
-
-    func createAccount() {
+    func startCreateAccount() {
         navigationController.pushViewController(signUpViewController, animated: true)
     }
 
-    func signUp(withUsername username: String, password: String) {
+    func signIn(withEmail email: String, password: String) {
+        loginService.signIn(withEmail: email, password: password) { [weak self] result in
+            guard let strongSelf = self else {
+                return
+            }
+            switch result {
+            case .success(let documentId):
+                print("Sign In Success: \(documentId)")
+                strongSelf.parentCoordinator?.didFinishSignIn(loginCoordinator: strongSelf)
+            case .failure(let error):
+                print("Error Sign In: \(error.localizedDescription)")
+                let alert = strongSelf.makeAlert(title: "Sign In",
+                                                 message: "An error occurs while signging in. Please try it again.")
+                strongSelf.navigationController.visibleViewController?.present(alert, animated: true)
+            }
+        }
+    }
+
+    func signUp(withEmail email: String, password: String) {
         // Do something with the sign up.
-        loginService.createUser(withUsername: username,
+        loginService.createUser(withEmail: email,
                                 password: password) { [weak self] result in
             guard let strongSelf = self else {
                 return
             }
             switch result {
             case .success(let documentId):
-                print("Success: \(documentId)")
+                print("Sign Up Success: \(documentId)")
                 strongSelf.parentCoordinator?.didFinishSignUp(loginCoordinator: strongSelf)
             case .failure(let error):
-                print("Error: \(error.localizedDescription)")
-                let alert = strongSelf.makeAlert(title: "Title",
+                print("Error Sign Up: \(error.localizedDescription)")
+                let alert = strongSelf.makeAlert(title: "Sign Up",
                                                  message: "An error occurs while creating the account. Please try it again.")
-                strongSelf.signUpViewController.present(alert, animated: true)
+                strongSelf.navigationController.visibleViewController?.present(alert, animated: true)
             }
         }
     }
 
+    func signOut() {
+        do {
+            try loginService.signOut()
+        }
+        catch let signOutError {
+            print("Error signing out: \(signOutError.localizedDescription)")
+        }
+    }
+}
+
+extension LoginCoordinator {
     func makeAlert(title: String, message: String) -> UIAlertController {
         let alert = UIAlertController(title: title,
                                       message: message,
