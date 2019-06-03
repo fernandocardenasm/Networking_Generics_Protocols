@@ -60,7 +60,7 @@ class LoginCoordinator: Coordinator {
                 print("Error Sign In: \(error.localizedDescription)")
                 let alert = strongSelf.makeAlert(title: "Sign In",
                                                  message: "An error occurs while signging in. Please try it again.")
-                strongSelf.loginViewController.present(alert, animated: true)
+                strongSelf.navigationController.visibleViewController?.present(alert, animated: true)
             }
         }
     }
@@ -80,11 +80,22 @@ class LoginCoordinator: Coordinator {
                 print("Error Sign Up: \(error.localizedDescription)")
                 let alert = strongSelf.makeAlert(title: "Sign Up",
                                                  message: "An error occurs while creating the account. Please try it again.")
-                strongSelf.signUpViewController.present(alert, animated: true)
+                strongSelf.navigationController.visibleViewController?.present(alert, animated: true)
             }
         }
     }
 
+    func signOut() {
+        do {
+            try loginService.signOut()
+        }
+        catch let signOutError {
+            print("Error signing out: \(signOutError.localizedDescription)")
+        }
+    }
+}
+
+extension LoginCoordinator {
     func makeAlert(title: String, message: String) -> UIAlertController {
         let alert = UIAlertController(title: title,
                                       message: message,

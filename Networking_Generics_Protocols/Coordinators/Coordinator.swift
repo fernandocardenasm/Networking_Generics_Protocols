@@ -16,7 +16,7 @@ protocol Coordinator: AnyObject {
     func start()
 }
 
-class MainCoordinator: NSObject, Coordinator {
+class MainCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     let navigationController: UINavigationController
 
@@ -61,7 +61,9 @@ class MainCoordinator: NSObject, Coordinator {
 
         charactersCoordinator.start()
     }
+}
 
+extension MainCoordinator {
     private func childDidFinish(_ child: Coordinator?) {
         for (index, coordinator) in childCoordinators.enumerated() {
             if coordinator === child {

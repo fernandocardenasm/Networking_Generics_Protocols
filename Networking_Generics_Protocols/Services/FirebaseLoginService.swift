@@ -10,6 +10,8 @@ protocol FirebaseLoginService {
     func createUser(withEmail: String, password: String, completion: @escaping (Result<String, Error>) -> Void)
 
     func signIn(withEmail: String, password: String, completion: @escaping (Result<String, Error>) -> Void)
+
+    func signOut() throws
 }
 
 class FirebaseLoginServiceImpl<Authentication: FBAuth>: FirebaseLoginService {
@@ -45,5 +47,9 @@ class FirebaseLoginServiceImpl<Authentication: FBAuth>: FirebaseLoginService {
                 print("This is an unknown error for sign in")
             }
         }
+    }
+
+    func signOut() throws {
+        try auth.signOut()
     }
 }

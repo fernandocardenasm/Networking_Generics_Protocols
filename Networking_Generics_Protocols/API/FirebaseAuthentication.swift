@@ -18,6 +18,8 @@ protocol FBAuth {
     func createUser(withEmail email: String, password: String, completion: DataResultCallback?)
 
     func signIn(withEmail email: String, password: String, completion: DataResultCallback?)
+
+    func signOut() throws
 }
 
 extension Auth: FBAuth {}
