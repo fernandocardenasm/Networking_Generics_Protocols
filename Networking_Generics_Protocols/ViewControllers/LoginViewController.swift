@@ -120,6 +120,6 @@ class LoginViewController: UIViewController {
     }
 
     @objc func signUpTapped(sender: UIButton) {
-        coordinator?.startCreateAccount()
+        coordinator?.startSignUp()
     }
 }

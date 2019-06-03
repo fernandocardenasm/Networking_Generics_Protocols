@@ -49,7 +49,8 @@ class CharacterCoordinator: Coordinator {
         return item
     }()
 
-    func start() {
+    func startCharacters() {
+        charactersViewController.navigationItem.rightBarButtonItem = addCharacterButtonItem
         navigationController.setViewControllers([charactersViewController], animated: true)
     }
 }
@@ -58,7 +59,7 @@ class CharacterCoordinator: Coordinator {
 
 extension CharacterCoordinator {
     @objc func addCharacterTapped(sender: UIBarButtonItem) {
-        navigationController.navigationItem.rightBarButtonItem = saveCharacterButtonItem
+        addCharacterViewController.navigationItem.rightBarButtonItem = saveCharacterButtonItem
         navigationController.pushViewController(addCharacterViewController, animated: true)
     }
 

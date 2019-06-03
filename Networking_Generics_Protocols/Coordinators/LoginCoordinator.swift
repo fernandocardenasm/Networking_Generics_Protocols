@@ -39,11 +39,11 @@ class LoginCoordinator: Coordinator {
         return viewController
     }()
 
-    func start() {
+    func startSignIn() {
         navigationController.pushViewController(loginViewController, animated: true)
     }
 
-    func startCreateAccount() {
+    func startSignUp() {
         navigationController.pushViewController(signUpViewController, animated: true)
     }
 

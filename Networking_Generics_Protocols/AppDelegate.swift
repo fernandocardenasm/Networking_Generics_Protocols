@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let navController = UINavigationController()
         coordinator = MainCoordinator(navigationController: navController)
-        coordinator?.start()
+        coordinator?.startSignIn()
 
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()

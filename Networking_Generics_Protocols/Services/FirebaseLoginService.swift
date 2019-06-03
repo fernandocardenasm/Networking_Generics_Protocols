@@ -7,6 +7,8 @@
 //
 
 protocol FirebaseLoginService {
+    var isLoggedIn: Bool { get }
+
     func createUser(withEmail: String, password: String, completion: @escaping (Result<String, Error>) -> Void)
 
     func signIn(withEmail: String, password: String, completion: @escaping (Result<String, Error>) -> Void)
@@ -19,6 +21,10 @@ class FirebaseLoginServiceImpl<Authentication: FBAuth>: FirebaseLoginService {
 
     init(auth: Authentication) {
         self.auth = auth
+    }
+
+    var isLoggedIn: Bool {
+        return auth.currentUser != nil
     }
 
     func createUser(withEmail email: String, password: String, completion: @escaping (Result<String, Error>) -> Void) {

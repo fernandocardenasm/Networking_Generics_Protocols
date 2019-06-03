@@ -13,7 +13,6 @@ import UIKit
 protocol Coordinator: AnyObject {
     var childCoordinators: [Coordinator] { get set }
     var navigationController: UINavigationController { get }
-    func start()
 }
 
 class MainCoordinator: Coordinator {
@@ -24,7 +23,7 @@ class MainCoordinator: Coordinator {
         self.navigationController = navigationController
     }
 
-    func start() {
+    func startSignIn() {
         // TODO If user is logggedin, then show the logged In ViewController, otherwise the not logged In.
         let loggedIn = false
         if loggedIn {
@@ -37,7 +36,7 @@ class MainCoordinator: Coordinator {
 
             childCoordinators.append(loginCoordinator)
 
-            loginCoordinator.start()
+            loginCoordinator.startSignIn()
         }
     }
 
@@ -54,12 +53,13 @@ class MainCoordinator: Coordinator {
     }
 
     func startCharacterCoordinator() {
-        let charactersCoordinator = CharacterCoordinator(navigationController: navigationController, repositoryService: FirebaseRepositoryServiceImpl(database: Firestore.firestore()))
+        let charactersCoordinator = CharacterCoordinator(navigationController: navigationController,
+                                                         repositoryService: FirebaseRepositoryServiceImpl(database: Firestore.firestore()))
         charactersCoordinator.parentCoordinator = self
 
         childCoordinators.append(charactersCoordinator)
 
-        charactersCoordinator.start()
+        charactersCoordinator.startCharacters()
     }
 }
 
